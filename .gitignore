@@ -14,6 +14,7 @@ xcuserdata/
 # *.generated.swift
 
 Modules/Sources/NetworkPlatform/Common/HTTPStatusCode.swift
+DevHub/Resources/Generated/BuildConfiguration.plist
 
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
