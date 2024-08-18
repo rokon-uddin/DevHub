@@ -26,9 +26,9 @@ public struct RepositoryListView: View {
         ProgressView()
       }
       ScrollView {
-        ForEach(store.repositories) {
-          RepositoryCell(model: $0.toViewModel) {
-
+        ForEach(store.repositories) { repo in
+          RepositoryCell(model: repo.toViewModel) {
+            store.send(.repositorySelected(repo))
           }
         }
         Spacer()
@@ -50,6 +50,34 @@ public struct RepositoryListView: View {
     .ignoresSafeArea()
     .onAppear {
       store.send(.onAppear)
+    }
+    .sheet(
+      item: $store.scope(
+        state: \.destination?.webView, action: \.destination.webView)
+    ) { webStore in
+      NavigationStack {
+        WebView(store: webStore)
+          .navigationTitle(webStore.url.absoluteString)
+          .navigationBarTitleDisplayMode(.inline)
+          .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+              Button {
+                store.send(.openInSafariTapped(webStore.url))
+              } label: {
+                Icon.safari
+              }
+              .accentColor(.accent)
+            }
+            ToolbarItem(placement: .cancellationAction) {
+              Button {
+                store.send(.closeButtonTapped)
+              } label: {
+                Icon.xmarkCircle
+              }
+              .accentColor(.accent)
+            }
+          }
+      }
     }
   }
 }

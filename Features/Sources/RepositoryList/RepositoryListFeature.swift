@@ -16,7 +16,7 @@ import Utilities
 public struct RepositoryListFeature {
   @Reducer(state: .equatable)
   public enum Destination {
-    case detail(UserDetailFeature)
+    case webView(WebViewFeature)
     case alert(AlertState<Alert>)
 
     @CasePathable
@@ -39,12 +39,14 @@ public struct RepositoryListFeature {
 
   public enum Action {
     case onAppear
-    case nextUsers
+    case closeButtonTapped
+    case openInSafariTapped(URL)
     case usersResponse(Result<RepositoryResponse?, Error>)
-    case userSelected
+    case repositorySelected(GitHubRepository)
     case destination(PresentationAction<Destination.Action>)
   }
 
+  @Dependency(\.openURL) var openURL
   @Dependency(\.repositoriesClient) var repositoriesClient
 
   public init() {}
@@ -54,11 +56,6 @@ public struct RepositoryListFeature {
       switch action {
       case .onAppear:
         return githubRepositories(state: &state)
-      case .nextUsers:
-        if !state.isLoading {
-          return githubRepositories(state: &state)
-        }
-        return .none
       case let .usersResponse(.success(response)):
         if let repos = response?.items {
           state.repositories.append(contentsOf: repos)
@@ -72,9 +69,19 @@ public struct RepositoryListFeature {
       case let .usersResponse(.failure(error)):
         Logger.log(logLevel: .error, error)
         return .none
-      case .userSelected:
+      case let .repositorySelected(repo):
+        if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {
+          state.destination = .webView(WebViewFeature.State(url: url))
+        }
         return .none
       case .destination:
+        return .none
+      case let .openInSafariTapped(url):
+        return .run { send in
+          await openURL(url)
+        }
+      case .closeButtonTapped:
+        state.destination = nil
         return .none
       }
     }

@@ -53,14 +53,14 @@
 		2F8C2C082C720957009DBE2D = {
 			isa = PBXGroup;
 			children = (
+				2FEDEA572C720D4100FC7860 /* Common */,
 				2F341E5C2C720E4100181F09 /* Domain */,
 				2F341E5B2C720DDB00181F09 /* Features */,
-				2FEDEA572C720D4100FC7860 /* Common */,
 				2FDF13E12C720C9E002A7AF4 /* NetworkPlatform */,
 				2FFE2DE62C720B6E0076F810 /* Utilities */,
 				2F8C2C132C720957009DBE2D /* DevHub */,
-				2F8C2C122C720957009DBE2D /* Products */,
 				2FDA42802C720F7600AF7C36 /* Frameworks */,
+				2F8C2C122C720957009DBE2D /* Products */,
 			);
 			sourceTree = "<group>";
 		};

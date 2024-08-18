@@ -38,7 +38,7 @@ public struct CustomCell: View {
           Text(title)
             .foregroundStyle(Color.text)
           Spacer()
-          
+
           if let detail { DetailTextView(detail) }
           if action != nil { Icon.arrow }
         }

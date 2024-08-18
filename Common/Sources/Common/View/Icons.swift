@@ -34,4 +34,8 @@ extension Icon {
     name: "eye.fill", size: .init(width: 20, height: 16))
   public static let arrow = Icon(
     name: "greaterthan", size: .init(width: 8, height: 16))
+  public static let safari = Icon(
+    name: "safari", size: .init(width: 24, height: 24))
+  public static let xmarkCircle = Icon(
+    name: "xmark.circle", size: .init(width: 24, height: 24))
 }
