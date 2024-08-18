@@ -1,0 +1,12 @@
+//
+//  Production.xcconfig
+//  DevHub
+//
+//  Created by Mohammed Rokon Uddin on 8/18/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+XCC_BUNDLE_NAME = DevHub-Prod
+XCC_CONFIG_PATH = Production/BuildConfiguration.plist

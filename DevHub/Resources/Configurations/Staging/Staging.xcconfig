@@ -1,0 +1,12 @@
+//
+//  Staging.xcconfig
+//  DevHub
+//
+//  Created by Mohammed Rokon Uddin on 8/18/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+XCC_BUNDLE_NAME = DevHub-Staging
+XCC_CONFIG_PATH = Staging/BuildConfiguration.plist
