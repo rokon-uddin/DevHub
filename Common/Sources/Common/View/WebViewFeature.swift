@@ -1,6 +1,6 @@
 //
-//  File.swift
-//
+//  WebViewFeature.swift
+//  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/18/24.
 //
