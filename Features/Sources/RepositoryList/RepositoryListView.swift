@@ -55,29 +55,14 @@ public struct RepositoryListView: View {
       item: $store.scope(
         state: \.destination?.webView, action: \.destination.webView)
     ) { webStore in
-      NavigationStack {
-        WebView(store: webStore)
-          .navigationTitle(webStore.url.absoluteString)
-          .navigationBarTitleDisplayMode(.inline)
-          .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-              Button {
-                store.send(.openInSafariTapped(webStore.url))
-              } label: {
-                Icon.safari
-              }
-              .accentColor(.accent)
-            }
-            ToolbarItem(placement: .cancellationAction) {
-              Button {
-                store.send(.closeButtonTapped)
-              } label: {
-                Icon.xmarkCircle
-              }
-              .accentColor(.accent)
-            }
-          }
-      }
+      WebViewNavigationStack(
+        store: webStore, title: webStore.url.absoluteString,
+        confirmationAction: {
+          store.send(.openInSafariTapped(webStore.url))
+        },
+        cancellationAction: {
+          store.send(.closeButtonTapped)
+        })
     }
   }
 }

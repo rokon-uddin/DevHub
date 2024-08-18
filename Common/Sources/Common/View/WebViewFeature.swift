@@ -111,3 +111,49 @@ private struct WebViewRepresentable: UIViewRepresentable {
     }
   }
 }
+
+public struct WebViewNavigationStack: View {
+
+  private let title: String
+  private var confirmationAction: () -> Void
+  private var cancellationAction: () -> Void
+  @Perception.Bindable private var store: StoreOf<WebViewFeature>
+
+  public init(
+    store: StoreOf<WebViewFeature>, 
+    title: String,
+    confirmationAction: @escaping () -> Void,
+    cancellationAction: @escaping () -> Void
+  ) {
+    self.title = title
+    self.confirmationAction = confirmationAction
+    self.cancellationAction = cancellationAction
+    self.store = store
+  }
+
+  public var body: some View {
+    NavigationStack {
+      WebView(store: store)
+        .navigationTitle(title)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+          ToolbarItem(placement: .confirmationAction) {
+            Button {
+              confirmationAction()
+            } label: {
+              Icon.safari
+            }
+            .accentColor(.accent)
+          }
+          ToolbarItem(placement: .cancellationAction) {
+            Button {
+              cancellationAction()
+            } label: {
+              Icon.xmarkCircle
+            }
+            .accentColor(.accent)
+          }
+        }
+    }
+  }
+}

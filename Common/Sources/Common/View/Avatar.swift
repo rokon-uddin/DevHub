@@ -20,31 +20,26 @@ public struct Avatar: View {
     ImageView()
       .frame(width: size, height: size)
       .cornerRadius(size / 2)
-      .addBorder(Color.black, cornerRadius: size / 2)
+      .addBorder(Color.accent, cornerRadius: size / 2)
   }
 
   @ViewBuilder
   private func ImageView() -> some View {
+    let placeholder = Image(systemName: "person.fill")
+      .resizable()
+      .aspectRatio(contentMode: .fit)
+      .foregroundColor(Color.accent)
+
     if let avatarURL, let url = URL(string: avatarURL) {
       AsyncImage(url: url) { image in
         image
           .resizable()
           .aspectRatio(contentMode: .fit)
       } placeholder: {
-        ProgressView()
+        placeholder
       }
     } else {
-      Image(systemName: "person")
+      placeholder
     }
-  }
-}
-
-extension View {
-  public func addBorder<S>(
-    _ content: S, width: CGFloat = 1, cornerRadius: CGFloat
-  ) -> some View where S: ShapeStyle {
-    let roundedRect = RoundedRectangle(cornerRadius: cornerRadius)
-    return clipShape(roundedRect)
-      .overlay(roundedRect.strokeBorder(content, lineWidth: width))
   }
 }

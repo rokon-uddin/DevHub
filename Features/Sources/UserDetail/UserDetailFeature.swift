@@ -13,8 +13,20 @@ import Utilities
 
 @Reducer
 public struct UserDetailFeature {
+  @Reducer(state: .equatable)
+  public enum Destination {
+    case webView(WebViewFeature)
+    case alert(AlertState<Alert>)
+
+    @CasePathable
+    public enum Alert {
+      case confirmLoadMockData
+    }
+  }
+
   @ObservableState
   public struct State: Equatable {
+    @Presents var destination: Destination.State?
     public var user: User
     var isLoading = true
     public var userDetail: UserDetail?
@@ -29,9 +41,9 @@ public struct UserDetailFeature {
     public var url: String { userDetail?.avatarURL ?? "" }
     public var publicRepos: String { "\(userDetail?.publicRepos ?? 0)" }
     public var followersCount: String { "\(userDetail?.followers ?? 0)" }
-    public var followingCount: String { "\(userDetail?.followers ?? 0)" }
+    public var followingCount: String { "\(userDetail?.following ?? 0)" }
     public var createdAt: String { userDetail?.createdAt?.timeAgo ?? "" }
-    public var updatedAt: String { userDetail?.createdAt?.timeAgo ?? "" }
+    public var updatedAt: String { userDetail?.updatedAt?.timeAgo ?? "" }
   }
 
   public enum Action {
@@ -39,6 +51,10 @@ public struct UserDetailFeature {
     case userDetailResponse(Result<UserDetail?, Error>)
     case delegate(Delegate)
     case reposButtonTapped
+    case closeButtonTapped
+    case openInSafariTapped(URL)
+    case profileSummarySelected
+    case destination(PresentationAction<Destination.Action>)
   }
 
   @CasePathable
@@ -46,6 +62,7 @@ public struct UserDetailFeature {
     case repositories(User)
   }
 
+  @Dependency(\.openURL) var openURL
   @Dependency(\.userDetailClient) var userDetailClient
   public init() {}
 
@@ -68,8 +85,27 @@ public struct UserDetailFeature {
         return .send(.delegate(.repositories(state.user)))
       case .delegate:
         return .none
+
+      case .profileSummarySelected:
+        let profileURL = "https://profile-summary-for-github.com/user/" + state.user.login
+        if let url = URL(string: profileURL) {
+          state.destination = .webView(WebViewFeature.State(url: url))
+        }
+        return .none
+      case .destination:
+        return .none
+      case let .openInSafariTapped(url):
+        return .run { send in
+          await openURL(url)
+        }
+      case .closeButtonTapped:
+        state.destination = nil
+        return .none
+
       }
     }
+    .ifLet(\.$destination, action: \.destination)
+
   }
 }
 

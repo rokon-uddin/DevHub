@@ -10,7 +10,7 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct UserDetailView: View {
-  let store: StoreOf<UserDetailFeature>
+  @Perception.Bindable var store: StoreOf<UserDetailFeature>
 
   public init(store: StoreOf<UserDetailFeature>) {
     self.store = store
@@ -57,7 +57,7 @@ public struct UserDetailView: View {
             //TODO: implement navigation
           }
           CustomCell(title: "Profile Summary", icon: Image.profileSummary) {
-            //TODO: implement navigation
+            store.send(.profileSummarySelected)
           }
         }
         .padding(.top, 8.0)
@@ -74,6 +74,19 @@ public struct UserDetailView: View {
       .ignoresSafeArea()
       .onAppear {
         store.send(.onAppear)
+      }
+      .sheet(
+        item: $store.scope(
+          state: \.destination?.webView, action: \.destination.webView)
+      ) { webStore in
+        WebViewNavigationStack(
+          store: webStore, title: "ProfileSummary",
+          confirmationAction: {
+            store.send(.openInSafariTapped(webStore.url))
+          },
+          cancellationAction: {
+            store.send(.closeButtonTapped)
+          })
       }
     }
   }
