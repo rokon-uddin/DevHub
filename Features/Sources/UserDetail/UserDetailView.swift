@@ -72,6 +72,7 @@ public struct UserDetailView: View {
       .navigationBarTitleDisplayMode(.inline)
       .navigationTitle(store.login)
       .ignoresSafeArea()
+      .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {
         store.send(.onAppear)
       }
@@ -88,6 +89,19 @@ public struct UserDetailView: View {
             store.send(.closeButtonTapped)
           })
       }
+    }
+  }
+}
+
+extension AlertState where Action == UserDetailFeature.Destination.Alert {
+  static func showError(_ error: String) -> Self {
+    return AlertState {
+      TextState("Error")
+    } actions: {
+      ButtonState(role: .none, action: .retry) { TextState("Retry") }
+      ButtonState(role: .cancel) { TextState("Cancel") }
+    } message: {
+      TextState(error)
     }
   }
 }

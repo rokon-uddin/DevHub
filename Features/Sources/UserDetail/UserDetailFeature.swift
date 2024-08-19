@@ -20,7 +20,7 @@ public struct UserDetailFeature {
 
     @CasePathable
     public enum Alert {
-      case confirmLoadMockData
+      case retry
     }
   }
 
@@ -75,17 +75,14 @@ public struct UserDetailFeature {
         state.userDetail = response
         state.isLoading = false
         return .none
-      case let .userDetailResponse(.failure(error)) where error is AppError:
-        Logger.log(logLevel: .error, error)
-        return .none
       case let .userDetailResponse(.failure(error)):
         Logger.log(logLevel: .error, error)
+        state.destination = .alert(.showError(error.localizedDescription))
         return .none
       case .reposButtonTapped:
         return .send(.delegate(.repositories(state.user)))
       case .delegate:
         return .none
-
       case .profileSummarySelected:
         let profileURL =
           "https://profile-summary-for-github.com/user/" + state.user.login
@@ -93,6 +90,11 @@ public struct UserDetailFeature {
           state.destination = .webView(WebViewFeature.State(url: url))
         }
         return .none
+      case let .destination(.presented(.alert(alertAction))):
+        switch alertAction {
+        case .retry:
+          return userDetail(state: &state)
+        }
       case .destination:
         return .none
       case let .openInSafariTapped(url):
