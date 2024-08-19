@@ -21,7 +21,7 @@ public struct UserListFeature {
 
     @CasePathable
     public enum Alert {
-      case confirmLoadMockData
+      case retry
     }
   }
 
@@ -39,7 +39,6 @@ public struct UserListFeature {
     case onAppear
     case nextUsers
     case usersResponse(Result<RemoteResponse<Users>?, Error>)
-    case userSelected
     case destination(PresentationAction<Destination.Action>)
   }
 
@@ -65,17 +64,15 @@ public struct UserListFeature {
         state.nextPage = Int.parse(from: next) ?? 0
         state.isLoading = false
         return .none
-      case let .usersResponse(.failure(error)) where error is AppError:
-        Logger.log(logLevel: .error, error)
-        return .none
       case let .usersResponse(.failure(error)):
         Logger.log(logLevel: .error, error)
+        state.destination = .alert(.showError(error.localizedDescription))
         return .none
-      case .userSelected:
-        state.destination = .detail(
-          UserDetailFeature.State(state.users.first!)
-        )
-        return .none
+      case let .destination(.presented(.alert(alertAction))):
+        switch alertAction {
+        case .retry:
+          return githubUsers(state: &state)
+        }
       case .destination:
         return .none
       }

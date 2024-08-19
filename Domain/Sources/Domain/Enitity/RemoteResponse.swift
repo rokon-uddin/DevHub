@@ -15,9 +15,8 @@ public struct RemoteResponse<T: Decodable> {
     do {
       let body = try JSONDecoder().decode(T.self, from: data)
       self.init(body: body, response: response)
-    } catch let error {
-      throw AppError.networkingFailed(
-        underlyingError: error, context: "Network")
+    } catch {
+      throw AppError.parseFailed
     }
   }
 

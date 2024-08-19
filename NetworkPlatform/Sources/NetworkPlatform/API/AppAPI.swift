@@ -47,8 +47,6 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
       params["since"] = page
     case .repositories(let param):
       params["q"] = param.query
-      //      params["sort"] = param.sort
-      //      params["order"] = param.order
       params["page"] = param.page
       params["per_page"] = param.itemPerPage
     default:
@@ -73,14 +71,6 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
     }
     return stubbedResponse(fileName)
   }
-
-  //  var task: Task {
-  //    if let parameters = parameters {
-  //      return .requestParameters(
-  //        parameters: parameters, encoding: parameterEncoding)
-  //    }
-  //    return .requestPlain
-  //  }
 
   var task: Task {
     switch self {

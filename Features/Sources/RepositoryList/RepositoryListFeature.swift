@@ -21,7 +21,7 @@ public struct RepositoryListFeature {
 
     @CasePathable
     public enum Alert {
-      case confirmLoadMockData
+      case retry
     }
   }
 
@@ -45,7 +45,7 @@ public struct RepositoryListFeature {
     case openInSafariTapped(URL)
     case nextPage
     case refresh
-    case usersResponse(Result<RepositoryResponse, Error>)
+    case repositoryResponse(Result<RepositoryResponse, Error>)
     case repositorySelected(GitHubRepository)
     case destination(PresentationAction<Destination.Action>)
     case binding(BindingAction<State>)
@@ -63,15 +63,14 @@ public struct RepositoryListFeature {
       case .onAppear:
         return githubRepositories(state: &state)
       case .nextPage:
-        guard state.repositories.count < state.totalCount else {
-          return .none
-        }
+        let canLoadMore = state.repositories.count < state.totalCount
+        guard canLoadMore else { return .none }
         state.page += 1
         return githubRepositories(state: &state)
       case .refresh:
         resetPage(state: &state)
         return githubRepositories(state: &state)
-      case let .usersResponse(.success(response)):
+      case let .repositoryResponse(.success(response)):
         state.totalCount = response.totalCount ?? 0
         if let repos = response.items {
           if state.searchText.isEmpty {
@@ -82,18 +81,21 @@ public struct RepositoryListFeature {
         }
         state.isLoading = false
         return .none
-      case let .usersResponse(.failure(error)) where error is AppError:
+      case let .repositoryResponse(.failure(error)):
+        Logger.log(logLevel: .error, error)
         state.isLoading = false
-        Logger.log(logLevel: .error, error)
-        return .none
-      case let .usersResponse(.failure(error)):
-        Logger.log(logLevel: .error, error)
+        state.destination = .alert(.showError(error.localizedDescription))
         return .none
       case let .repositorySelected(repo):
         if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {
           state.destination = .webView(WebViewFeature.State(url: url))
         }
         return .none
+      case let .destination(.presented(.alert(alertAction))):
+        switch alertAction {
+        case .retry:
+          return githubRepositories(state: &state)
+        }
       case .destination:
         return .none
       case let .openInSafariTapped(url):
@@ -134,7 +136,7 @@ extension RepositoryListFeature {
 
     return .run { [query] send in
       await send(
-        .usersResponse(
+        .repositoryResponse(
           Result {
             try await repositoriesClient.githubRepositories(input: query)
           }))

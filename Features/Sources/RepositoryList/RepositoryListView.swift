@@ -55,6 +55,7 @@ public struct RepositoryListView: View {
       .navigationBarTitleDisplayMode(.inline)
       .background(Color.background)
       .ignoresSafeArea()
+      .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {
         store.send(.onAppear)
       }
@@ -71,6 +72,19 @@ public struct RepositoryListView: View {
             store.send(.closeButtonTapped)
           })
       }
+    }
+  }
+}
+
+extension AlertState where Action == RepositoryListFeature.Destination.Alert {
+  static func showError(_ error: String) -> Self {
+    return AlertState {
+      TextState("Error")
+    } actions: {
+      ButtonState(role: .none, action: .retry) { TextState("Retry") }
+      ButtonState(role: .cancel) { TextState("Cancel") }
+    } message: {
+      TextState(error)
     }
   }
 }

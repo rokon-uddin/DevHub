@@ -40,6 +40,7 @@ public struct UserListView: View {
         //TODO: Implement pull to refresh
       }
       .listStyle(.plain)
+      .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .navigationTitle("Developers")
       .onAppear {
         store.send(.onAppear)
@@ -51,6 +52,19 @@ public struct UserListView: View {
       Avatar(user.avatarURL)
       Text(user.login)
         .font(.title2)
+    }
+  }
+}
+
+extension AlertState where Action == UserListFeature.Destination.Alert {
+  static func showError(_ error: String) -> Self {
+    return AlertState {
+      TextState("Error")
+    } actions: {
+      ButtonState(role: .none, action: .retry) { TextState("Retry") }
+      ButtonState(role: .cancel) { TextState("Cancel") }
+    } message: {
+      TextState(error)
     }
   }
 }

@@ -48,24 +48,7 @@ struct AppNetworking: NetworkingType {
     return try await request(target)
       .filterSuccessfulStatusCodes()
       .map(T.self)
-      .mapError { error -> AppError in
-        AppError.networkingFailed(underlyingError: error, context: "Network")
-      }
-      .receive(on: DispatchQueue.main)
-      .eraseToAnyPublisher()
-      .async()
-  }
-
-  func requestArray<T: Codable>(
-    _ target: AppAPI,
-    type _: T.Type
-  ) async throws -> [T] {
-    return try await request(target)
-      .filterSuccessfulStatusCodes()
-      .map([T].self)
-      .mapError { error -> AppError in
-        AppError.networkingFailed(underlyingError: error, context: "Network")
-      }
+      .mapError { $0.asAppError }
       .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()
       .async()
@@ -79,10 +62,17 @@ struct AppNetworking: NetworkingType {
       .filterSuccessfulStatusCodes()
       .tryMap { try RemoteResponse(data: $0.data, response: $0.response) }
       .mapError { error -> AppError in
-        AppError.networkingFailed(underlyingError: error, context: "Network")
+        guard let error = error as? MoyaError else { return AppError.network(error, context: "Network") }
+        return error.asAppError
       }
       .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()
       .async()
+  }
+}
+
+extension MoyaError {
+  public var asAppError: AppError {
+    AppError.network(response?.response?.networkRequestError ?? self, context: "Network")
   }
 }
