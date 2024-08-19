@@ -43,18 +43,8 @@ class OnlineProvider<Target> where Target: Moya.TargetType {
     return provider.requestPublisher(target)
       .mapError { $0 }
       .handleEvents(
-        receiveOutput: { response in
-          Logger.log(logLevel: .debug, response)
-        },
-        receiveCompletion: { completion in
-          switch completion {
-          case .finished:
-            Logger.log(logLevel: .info, "Success")
-          case let .failure(error):
-            // TODO: handle network error
-            Logger.log(logLevel: .error, error)
-          }
-        }
+        receiveOutput: { _ in },
+        receiveCompletion: { _ in }
       )
       .receive(on: DispatchQueue.main)
       .eraseToAnyPublisher()

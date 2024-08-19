@@ -65,7 +65,6 @@ public struct UserListFeature {
         state.isLoading = false
         return .none
       case let .usersResponse(.failure(error)):
-        Logger.log(logLevel: .error, error)
         state.destination = .alert(.showError(error.localizedDescription))
         return .none
       case let .destination(.presented(.alert(alertAction))):

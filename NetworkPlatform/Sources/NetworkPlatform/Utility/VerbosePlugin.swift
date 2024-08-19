@@ -20,6 +20,12 @@ struct VerbosePlugin: PluginType {
           Logger.log(logLevel: .info, body)
         }
       }
+
+      if let headerFields = request.allHTTPHeaderFields {
+        if verbose {
+          Logger.log(logLevel: .info, headerFields)
+        }
+      }
     #endif
     return request
   }
@@ -38,7 +44,8 @@ struct VerbosePlugin: PluginType {
             Logger.log(logLevel: .info, response)
           }
         }
-      case .failure:
+      case .failure(let error):
+        Logger.log(logLevel: .error, error.asAppError)
         break
       }
     #endif

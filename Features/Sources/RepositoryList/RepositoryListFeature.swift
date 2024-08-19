@@ -82,7 +82,6 @@ public struct RepositoryListFeature {
         state.isLoading = false
         return .none
       case let .repositoryResponse(.failure(error)):
-        Logger.log(logLevel: .error, error)
         state.isLoading = false
         state.destination = .alert(.showError(error.localizedDescription))
         return .none

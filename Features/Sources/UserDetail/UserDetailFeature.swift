@@ -76,7 +76,6 @@ public struct UserDetailFeature {
         state.isLoading = false
         return .none
       case let .userDetailResponse(.failure(error)):
-        Logger.log(logLevel: .error, error)
         state.destination = .alert(.showError(error.localizedDescription))
         return .none
       case .reposButtonTapped:

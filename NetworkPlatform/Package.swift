@@ -41,5 +41,12 @@ let package = Package(
         .copy("Resources/StubbedResponse/UserDetail.json"),
       ]
     ),
+    
+    .testTarget(
+      name: "NetworkPlatformTests",
+      dependencies: [
+        "NetworkPlatform",
+        .product(name: "Domain", package: "Domain"),
+      ]),
   ]
 )

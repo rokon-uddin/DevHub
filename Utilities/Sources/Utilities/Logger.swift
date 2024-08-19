@@ -107,35 +107,21 @@ extension Logger {
     let valuePadding = max(50, longestLineLength + 1)
 
     var logMessage = "\(separator)\n"
-    logMessage +=
-      "│ \(heading.padding(toLength: separator.count - 2, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "│ \(heading.padding(toLength: separator.count - 2, withPad: " ", startingAt: 0)) │\n"
     logMessage += "\(separator)\n"
-    logMessage +=
-      "│ Timestamp      │ \(timestamp.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ File           │ \(fileString.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ Function       │ \(function.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ Line           │ \(String(line).padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ Object Type    │ \(objectType.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ Memory Address │ \(memoryAddress.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
-    logMessage +=
-      "├─────────────────────────────────────────────────────────────────┤\n"
-    logMessage +=
-      "│ Value          │ \(objectValue) \(String(repeating: " ", count: valuePadding - longestLineLength)) │\n"
+    logMessage += "│ Timestamp      │ \(timestamp.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ File           │ \(fileString.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ Function       │ \(function.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ Line           │ \(String(line).padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ Object Type    │ \(objectType.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ Memory Address │ \(memoryAddress.padding(toLength: 50, withPad: " ", startingAt: 0)) │\n"
+    logMessage += "├─────────────────────────────────────────────────────────────────┤\n"
+    logMessage += "│ Value          │ \(objectValue) \(String(repeating: " ", count: valuePadding - longestLineLength)) │\n"
     logMessage += "\(separator)\n"
 
     return logMessage

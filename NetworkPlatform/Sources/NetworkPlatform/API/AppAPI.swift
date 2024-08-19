@@ -17,8 +17,14 @@ enum AppAPI {
 }
 
 extension AppAPI: TargetType, ProductAPIType, Stubble {
+  
+  var unitTesting : Bool {
+      return ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+  }
+  
   var baseURL: URL {
-    return URL(string: BuildConfiguration.shared.baseURLString)!
+    let baseURLString = unitTesting ? "https://api.github.com" : BuildConfiguration.shared.baseURLString
+    return URL(string: baseURLString)!
   }
 
   var path: String {
@@ -37,7 +43,8 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
   }
 
   var headers: [String: String]? {
-    return ["Authorization": "Bearer \(BuildConfiguration.shared.githubToken)"]
+    let token =  unitTesting ? "" : BuildConfiguration.shared.githubToken
+    return ["Authorization": "Bearer " + token]
   }
 
   var parameters: [String: Any]? {

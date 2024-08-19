@@ -26,12 +26,7 @@ protocol NetworkingType {
 extension NetworkingType {
   static func endpointsClosure<T>(_: String? = nil) -> (T) -> Endpoint
   where T: TargetType, T: ProductAPIType {
-    return { target in
-      let endpoint = MoyaProvider.defaultEndpointMapping(for: target)
-      Logger.log(logLevel: .info, endpoint.url)
-      // Sign all non-XApp, non-XAuth token requests
-      return endpoint
-    }
+    return { MoyaProvider.defaultEndpointMapping(for: $0) }
   }
 
   static func APIKeysBasedStubBehaviour<T>(_: T) -> Moya.StubBehavior {
@@ -43,13 +38,11 @@ extension NetworkingType {
     plugins.append(NetworkLoggerPlugin())
     return plugins
   }
-
-  // (Endpoint<Target>, NSURLRequest -> Void) -> Void
+  
   static func endpointResolver() -> MoyaProvider<T>.RequestClosure {
     return { endpoint, closure in
       do {
-        var request = try endpoint.urlRequest()  // endpoint.urlRequest
-
+        var request = try endpoint.urlRequest()
         request.httpShouldHandleCookies = false
         closure(.success(request))
       } catch {
