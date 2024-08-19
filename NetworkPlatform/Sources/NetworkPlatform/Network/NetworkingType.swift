@@ -38,7 +38,7 @@ extension NetworkingType {
     plugins.append(NetworkLoggerPlugin())
     return plugins
   }
-  
+
   static func endpointResolver() -> MoyaProvider<T>.RequestClosure {
     return { endpoint, closure in
       do {

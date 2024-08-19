@@ -1,5 +1,5 @@
 //
-//  CommonTests.swift
+//  DebounceTextFieldTests.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/19/24.
@@ -10,7 +10,7 @@ import XCTest
 
 @testable import Common
 
-final class CommonTests: XCTestCase {
+final class DebounceTextFieldTests: XCTestCase {
 
   var cancellables: Set<AnyCancellable> = []
 

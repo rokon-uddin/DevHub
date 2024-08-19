@@ -41,7 +41,7 @@ let package = Package(
         .copy("Resources/StubbedResponse/UserDetail.json"),
       ]
     ),
-    
+
     .testTarget(
       name: "NetworkPlatformTests",
       dependencies: [
