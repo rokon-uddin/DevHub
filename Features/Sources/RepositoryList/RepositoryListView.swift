@@ -21,7 +21,8 @@ public struct RepositoryListView: View {
   public var body: some View {
     VStack(spacing: 0) {
       Avatar(store.user.avatarURL, size: 96)
-        .padding(.bottom, 8.0)
+        .padding([.top, .bottom], 8.0)
+      DebouncedTextField(text: $store.searchText)
       if store.isLoading {
         ProgressView()
       }
@@ -29,6 +30,11 @@ public struct RepositoryListView: View {
         ForEach(store.repositories) { repo in
           RepositoryCell(model: repo.toViewModel) {
             store.send(.repositorySelected(repo))
+          }
+          .onAppear {
+            if repo == store.repositories.last {
+              store.send(.nextPage)
+            }
           }
         }
         Spacer()
@@ -38,7 +44,7 @@ public struct RepositoryListView: View {
       .listStyle(.plain)
       .background(Color.background)
       .refreshable {
-        //TODO: Implement pull to refresh
+        store.send(.refresh)
       }
     }
     .frame(maxWidth: .infinity)

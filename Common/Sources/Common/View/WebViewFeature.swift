@@ -120,7 +120,7 @@ public struct WebViewNavigationStack: View {
   @Perception.Bindable private var store: StoreOf<WebViewFeature>
 
   public init(
-    store: StoreOf<WebViewFeature>, 
+    store: StoreOf<WebViewFeature>,
     title: String,
     confirmationAction: @escaping () -> Void,
     cancellationAction: @escaping () -> Void

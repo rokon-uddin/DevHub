@@ -29,21 +29,26 @@ public struct RepositoryListFeature {
   public struct State: Equatable {
     @Presents var destination: Destination.State?
     var repositories = [GitHubRepository]()
-    var nextPage = 0
+    var page = 1
+    var totalCount = 0
     var isLoading = true
     let user: User
+    var searchText = ""
     public init(_ user: User) {
       self.user = user
     }
   }
 
-  public enum Action {
+  public enum Action: BindableAction {
     case onAppear
     case closeButtonTapped
     case openInSafariTapped(URL)
-    case usersResponse(Result<RepositoryResponse?, Error>)
+    case nextPage
+    case refresh
+    case usersResponse(Result<RepositoryResponse, Error>)
     case repositorySelected(GitHubRepository)
     case destination(PresentationAction<Destination.Action>)
+    case binding(BindingAction<State>)
   }
 
   @Dependency(\.openURL) var openURL
@@ -52,13 +57,28 @@ public struct RepositoryListFeature {
   public init() {}
 
   public var body: some ReducerOf<Self> {
+    BindingReducer()
     Reduce { state, action in
       switch action {
       case .onAppear:
         return githubRepositories(state: &state)
+      case .nextPage:
+        guard state.repositories.count < state.totalCount else {
+          return .none
+        }
+        state.page += 1
+        return githubRepositories(state: &state)
+      case .refresh:
+        resetPage(state: &state)
+        return githubRepositories(state: &state)
       case let .usersResponse(.success(response)):
-        if let repos = response?.items {
-          state.repositories.append(contentsOf: repos)
+        state.totalCount = response.totalCount ?? 0
+        if let repos = response.items {
+          if state.searchText.isEmpty {
+            state.repositories.append(contentsOf: repos)
+          } else {
+            state.repositories = repos
+          }
         }
         state.isLoading = false
         return .none
@@ -80,6 +100,13 @@ public struct RepositoryListFeature {
         return .run { send in
           await openURL(url)
         }
+      case .binding(\.searchText):
+        if state.searchText.isEmpty {
+          resetPage(state: &state)
+        }
+        return githubRepositories(state: &state)
+      case .binding(_):
+        return .none
       case .closeButtonTapped:
         state.destination = nil
         return .none
@@ -90,16 +117,26 @@ public struct RepositoryListFeature {
 }
 
 extension RepositoryListFeature {
+
+  private func resetPage(state: inout State) {
+    state.page = 1
+    state.repositories = []
+  }
+
   private func githubRepositories(state: inout State) -> Effect<Action> {
-    state.isLoading = true
-    return .run { [state] send in
+    if state.repositories.isEmpty {
+      state.isLoading = true
+    }
+    var query: RepositoryQuery {
+      let page = state.searchText.isEmpty ? state.page : 1
+      return RepositoryQuery(page: page, query: "\(state.searchText) user:\(state.user.login)")
+    }
+
+    return .run { [query] send in
       await send(
         .usersResponse(
           Result {
-            try await repositoriesClient.githubRepositories(
-              input: RepositoryQuery(
-                page: 1, sort: "", order: "", query: "user:\(state.user.login)",
-                itemPerPage: 30))
+            try await repositoriesClient.githubRepositories(input: query)
           }))
     }
   }

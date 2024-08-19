@@ -9,17 +9,11 @@ import Foundation
 
 public struct RepositoryQuery {
   public let page: Int
-  public let sort: String
-  public let order: String
   public let query: String
   public let itemPerPage: Int
 
-  public init(
-    page: Int, sort: String, order: String, query: String, itemPerPage: Int
-  ) {
+  public init(page: Int, query: String, itemPerPage: Int = 30) {
     self.page = page
-    self.sort = sort
-    self.order = order
     self.query = query
     self.itemPerPage = itemPerPage
   }

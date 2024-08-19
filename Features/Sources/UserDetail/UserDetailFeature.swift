@@ -87,7 +87,8 @@ public struct UserDetailFeature {
         return .none
 
       case .profileSummarySelected:
-        let profileURL = "https://profile-summary-for-github.com/user/" + state.user.login
+        let profileURL =
+          "https://profile-summary-for-github.com/user/" + state.user.login
         if let url = URL(string: profileURL) {
           state.destination = .webView(WebViewFeature.State(url: url))
         }
