@@ -28,10 +28,10 @@ public struct UserDetailFeature {
   public struct State: Equatable {
     @Presents var destination: Destination.State?
     public var user: User
-    var isLoading = true
+    var isLoading = false
     public var userDetail: UserDetail?
 
-    public init(_ user: User) {
+    public init(user: User) {
       self.user = user
     }
 
@@ -76,6 +76,7 @@ public struct UserDetailFeature {
         state.isLoading = false
         return .none
       case let .userDetailResponse(.failure(error)):
+        state.isLoading = false
         state.destination = .alert(.showError(error.localizedDescription))
         return .none
       case .reposButtonTapped:
@@ -113,6 +114,8 @@ public struct UserDetailFeature {
 
 extension UserDetailFeature {
   private func userDetail(state: inout State) -> Effect<Action> {
+    guard !state.isLoading else { return .none }
+    state.isLoading = true
     return .run { [state] send in
       await send(
         .userDetailResponse(

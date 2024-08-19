@@ -24,7 +24,7 @@ public struct UserListView: View {
     WithPerceptionTracking {
       List {
         ForEach(store.users) { user in
-          NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user))) {
+          NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
             UserCard(user)
               .onAppear {
                 if user == store.users.last {

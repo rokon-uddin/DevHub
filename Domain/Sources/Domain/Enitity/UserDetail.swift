@@ -121,3 +121,44 @@ public struct UserDetail: Codable, Equatable, Identifiable {
     self.updatedAt = updatedAt
   }
 }
+
+extension UserDetail {
+  public static let mock = try! JSONDecoder().decode(UserDetail.self, from: userDetail.data(using: .utf8)!)
+}
+
+let userDetail = #"""
+  {
+      "login": "rokon-uddin",
+      "id": 29856113,
+      "node_id": "MDQ6VXNlcjI5ODU2MTEz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29856113?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/rokon-uddin",
+      "html_url": "https://github.com/rokon-uddin",
+      "followers_url": "https://api.github.com/users/rokon-uddin/followers",
+      "following_url": "https://api.github.com/users/rokon-uddin/following{/other_user}",
+      "gists_url": "https://api.github.com/users/rokon-uddin/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/rokon-uddin/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/rokon-uddin/subscriptions",
+      "organizations_url": "https://api.github.com/users/rokon-uddin/orgs",
+      "repos_url": "https://api.github.com/users/rokon-uddin/repos",
+      "events_url": "https://api.github.com/users/rokon-uddin/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/rokon-uddin/received_events",
+      "type": "User",
+      "site_admin": false,
+      "name": "Mohammed Rokon Uddin",
+      "company": null,
+      "blog": "",
+      "location": "Dhaka, Bangladesh",
+      "email": null,
+      "hireable": null,
+      "bio": "Senior Software Engineer | Apple Platform Developer | Cross Platform App Developer using Flutter | Tea Lover ☕️ | Occasional Chef 👨‍🍳| Soccer Player ⚽️ ",
+      "twitter_username": "RokonMohammed",
+      "public_repos": 63,
+      "public_gists": 13,
+      "followers": 10,
+      "following": 24,
+      "created_at": "2017-07-03T07:53:50Z",
+      "updated_at": "2024-08-13T12:28:03Z"
+  }
+  """#

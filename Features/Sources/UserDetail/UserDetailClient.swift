@@ -13,7 +13,7 @@ import NetworkPlatform
 struct UserDetailClient {
   var userDetail: any UserDetailUseCaseType
 
-  init(useCase: UserDetailUseCase) {
+  init(useCase: some UserDetailUseCaseType) {
     self.userDetail = useCase
   }
 }
