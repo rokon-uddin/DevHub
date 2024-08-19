@@ -21,18 +21,20 @@ public struct HomeView: View {
   }
 
   public var body: some View {
-    NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-      UserListView(
-        store: store.scope(state: \.usersList, action: \.usersList)
-      )
-    } destination: { store in
-      switch store.case {
-      case let .detail(store):
-        UserDetailView(store: store)
-          .toolbarRole(.editor)
-      case let .repos(store):
-        RepositoryListView(store: store)
-          .toolbarRole(.editor)
+    WithPerceptionTracking {
+      NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        UserListView(
+          store: store.scope(state: \.usersList, action: \.usersList)
+        )
+      } destination: { store in
+        switch store.case {
+        case let .detail(store):
+          UserDetailView(store: store)
+            .toolbarRole(.editor)
+        case let .repos(store):
+          RepositoryListView(store: store)
+            .toolbarRole(.editor)
+        }
       }
     }
   }

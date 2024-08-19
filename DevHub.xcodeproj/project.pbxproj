@@ -167,6 +167,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2F8C2C1F2C720959009DBE2D /* Build configuration list for PBXNativeTarget "DevHub" */;
 			buildPhases = (
+				2FDADB162C72E9510077AE76 /* Copy Build Configuration */,
 				2F8C2C0D2C720957009DBE2D /* Sources */,
 				2F8C2C0E2C720957009DBE2D /* Frameworks */,
 				2F8C2C0F2C720957009DBE2D /* Resources */,
@@ -235,6 +236,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2FDADB162C72E9510077AE76 /* Copy Build Configuration */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Build Configuration";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp -fp \"$SRCROOT/DevHub/Resources/Configurations/${XCC_CONFIG_PATH}\" \"$SRCROOT/DevHub/Resources/Generated/BuildConfiguration.plist\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2F8C2C0D2C720957009DBE2D /* Sources */ = {

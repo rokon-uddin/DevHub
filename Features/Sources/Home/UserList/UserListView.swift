@@ -21,30 +21,31 @@ public struct UserListView: View {
   }
 
   public var body: some View {
-    List {
-      ForEach(store.users) { user in
-        NavigationLink(
-          state: HomeFeature.Path.State.detail(UserDetailFeature.State(user))
-        ) {
-          UserCard(user)
-            .onAppear {
-              if user == store.users.last {
-                store.send(.nextUsers)
+    WithPerceptionTracking {
+      List {
+        ForEach(store.users) { user in
+          NavigationLink(
+            state: HomeFeature.Path.State.detail(UserDetailFeature.State(user))
+          ) {
+            UserCard(user)
+              .onAppear {
+                if user == store.users.last {
+                  store.send(.nextUsers)
+                }
               }
-            }
+          }
         }
       }
-    }
-    .refreshable {
-      //TODO: Implement pull to refresh
-    }
-    .listStyle(.plain)
-    .navigationTitle("Developers")
-    .onAppear {
-      store.send(.onAppear)
+      .refreshable {
+        //TODO: Implement pull to refresh
+      }
+      .listStyle(.plain)
+      .navigationTitle("Developers")
+      .onAppear {
+        store.send(.onAppear)
+      }
     }
   }
-
   private func UserCard(_ user: User) -> some View {
     return HStack(alignment: .center, spacing: 16) {
       Avatar(user.avatarURL)
