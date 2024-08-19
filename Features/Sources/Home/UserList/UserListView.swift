@@ -24,9 +24,7 @@ public struct UserListView: View {
     WithPerceptionTracking {
       List {
         ForEach(store.users) { user in
-          NavigationLink(
-            state: HomeFeature.Path.State.detail(UserDetailFeature.State(user))
-          ) {
+          NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user))) {
             UserCard(user)
               .onAppear {
                 if user == store.users.last {
@@ -35,11 +33,19 @@ public struct UserListView: View {
               }
           }
         }
+        .listRowBackground(
+          RoundedRectangle(cornerRadius: 8)
+            .foregroundColor(Color.foreground)
+            .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+        )
+        .listRowSeparator(.hidden)
       }
+      .background(Color.background)
+      .listStyle(.plain)
+      .scrollIndicators(.hidden)
       .refreshable {
         //TODO: Implement pull to refresh
       }
-      .listStyle(.plain)
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .navigationTitle("Developers")
       .onAppear {
@@ -52,6 +58,7 @@ public struct UserListView: View {
       Avatar(user.avatarURL)
       Text(user.login)
         .font(.title2)
+      Spacer()
     }
   }
 }
