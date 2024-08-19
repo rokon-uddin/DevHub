@@ -13,8 +13,7 @@ public typealias RepositoryUseCaseType = UseCase<
 
 public final class RepositoryUseCase: UseCase {
 
-  var getRepositories:
-    (_ input: RepositoryQuery) async throws -> RepositoryResponse
+  var getRepositories: (_ input: RepositoryQuery) async throws -> RepositoryResponse
 
   public init<R: RemoteUsersRepository>(repository: R)
   where R.ReadInput == Input, R.ReadOutput == Output {

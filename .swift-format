@@ -11,7 +11,7 @@
   "lineBreakBeforeControlFlowKeywords" : false,
   "lineBreakBeforeEachArgument" : false,
   "lineBreakBeforeEachGenericRequirement" : false,
-  "lineLength" : 80,
+  "lineLength" : 120,
   "tabWidth" : 8,
   "maximumBlankLines" : 1,
   "prioritizeKeepingFunctionOutputTogether" : false,

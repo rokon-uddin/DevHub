@@ -31,13 +31,15 @@ public struct ThrottleOperator<Value>: Operator {
 }
 
 extension Operator {
-  public static func throttle<CustomOperator>(delay: Double = 0.3) -> Self where Self == ThrottleOperator<CustomOperator> {
+  public static func throttle<CustomOperator>(delay: Double = 0.3) -> Self
+  where Self == ThrottleOperator<CustomOperator> {
     ThrottleOperator(delay: delay)
   }
 }
 
 extension Operator {
-  public static func debounce<CustomOperator>(delay: Double = 0.3) -> Self where Self == DebounceOperator<CustomOperator> {
+  public static func debounce<CustomOperator>(delay: Double = 0.3) -> Self
+  where Self == DebounceOperator<CustomOperator> {
     DebounceOperator(delay: delay)
   }
 }
