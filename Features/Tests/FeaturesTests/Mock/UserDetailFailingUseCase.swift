@@ -1,5 +1,5 @@
 //
-//  AlwaysFailingUseCase.swift
+//  UserDetailFailingUseCase.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/19/24.
@@ -9,11 +9,12 @@
 @testable import NetworkPlatform
 @testable import UserDetail
 
-struct AlwaysFailingUseCase: UseCase {
+struct UserDetailFailingUseCase: UseCase {
   let error: NetworkRequestError
   init(error: NetworkRequestError = .serverError) {
     self.error = error
   }
+  
   func callAsFunction(input: String) async throws -> UserDetail {
     throw error
   }

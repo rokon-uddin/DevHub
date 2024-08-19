@@ -13,7 +13,7 @@ import NetworkPlatform
 struct RepositoryClient {
   var githubRepositories: any RepositoryUseCaseType
 
-  init(useCase: RepositoryUseCase) {
+  init(useCase: some RepositoryUseCaseType) {
     self.githubRepositories = useCase
   }
 }

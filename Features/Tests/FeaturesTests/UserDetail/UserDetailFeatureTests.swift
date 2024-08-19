@@ -36,7 +36,7 @@ final class UserDetailFeatureTests: XCTestCase {
   @MainActor
   func testResponseFailure() async {
     let client = UserDetailClient(
-      useCase: AlwaysFailingUseCase())
+      useCase: UserDetailFailingUseCase())
     let response = client.userDetail
     let errorDescription = NetworkRequestError.serverError.localizedDescription
     let store = TestStore(initialState: UserDetailFeature.State(user: .mock)) {

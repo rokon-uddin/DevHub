@@ -13,7 +13,7 @@ import NetworkPlatform
 struct UsersClient {
   var githubUsers: any UsersUseCaseType
 
-  init(usersUseCase: UsersUseCase) {
+  init(usersUseCase: some UsersUseCaseType) {
     self.githubUsers = usersUseCase
   }
 }
