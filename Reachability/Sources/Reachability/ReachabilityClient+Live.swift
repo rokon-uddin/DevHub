@@ -29,7 +29,7 @@ extension ReachabilityClient {
 
 extension ReachabilityClient: DependencyKey {
   public static let liveValue = ReachabilityClient.live(queue: .main)
-  public static let testValue = ReachabilityClient.satisfied
+  public static let testValue = ReachabilityClient.satisfiedWifi
 }
 
 extension DependencyValues {

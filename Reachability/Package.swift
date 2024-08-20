@@ -22,6 +22,9 @@ let package = Package(
       dependencies: [
         .product(name: "Domain", package: "Domain"),
         .product(name: "Dependencies", package: "swift-dependencies"),
-      ])
+      ]),
+    .testTarget(
+      name: "ReachabilityTests",
+      dependencies: ["Reachability"]),
   ]
 )

@@ -9,9 +9,16 @@ import Foundation
 import Network
 
 extension ReachabilityClient {
-  public static let satisfied = Self {
+  public static let satisfiedWifi = Self {
     AsyncStream { continuation in
       continuation.yield(NetworkPath(reachability: .connected(interface: .wifi)))
+      continuation.finish()
+    }
+  }
+
+  public static let satisfiedCellular = Self {
+    AsyncStream { continuation in
+      continuation.yield(NetworkPath(reachability: .connected(interface: .cellular)))
       continuation.finish()
     }
   }
