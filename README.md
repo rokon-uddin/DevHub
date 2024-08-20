@@ -23,7 +23,7 @@
 The app is structured using a Clean Architecture to promote modularity, maintainability, and testability.
 
 <p align="center">
-    <img alt="Clean Architecture" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/clean.jpeg?raw=true" height="250">
+    <img alt="Clean Architecture" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/clean.jpeg?raw=true" height="640">
 </p>
 
 ### Presentation Layer
