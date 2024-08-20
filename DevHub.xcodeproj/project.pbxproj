@@ -21,6 +21,7 @@
 /* Begin PBXFileReference section */
 		2F341E5B2C720DDB00181F09 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		2F341E5C2C720E4100181F09 /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
+		2F436ED52C74594B00B3383B /* Reachability */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Reachability; sourceTree = "<group>"; };
 		2F8C2C112C720957009DBE2D /* DevHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DevHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F8C2C1B2C720959009DBE2D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2FDA42672C720F0B00AF7C36 /* BuildConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BuildConfiguration.plist; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		2F8C2C082C720957009DBE2D = {
 			isa = PBXGroup;
 			children = (
+				2F436ED52C74594B00B3383B /* Reachability */,
 				2FEDEA572C720D4100FC7860 /* Common */,
 				2F341E5C2C720E4100181F09 /* Domain */,
 				2F341E5B2C720DDB00181F09 /* Features */,
@@ -399,6 +401,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -428,6 +431,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -521,6 +525,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -614,6 +619,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -700,6 +706,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -786,6 +793,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DevHub/Preview Content\"";
+				DEVELOPMENT_TEAM = GJW24JA7KV;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;

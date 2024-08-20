@@ -20,7 +20,7 @@ extension AppError: LocalizedError {
     case .parseFailed:
       return "Parse Error"
     case let .network(underlying, _, _, _):
-      return "Description: \(underlying)"
+      return "Description: \(underlying.localizedDescription)"
     case .unknown:
       return "Unknown Error"
     }

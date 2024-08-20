@@ -32,6 +32,13 @@ public struct HomeView: View {
             .toolbarRole(.editor)
         }
       }
+      .toast(
+        toast: .networkError(show: .constant(!store.isOnline)),
+        show: .constant(!store.isOnline)
+      )
+      .onAppear {
+        store.send(.onAppear)
+      }
     }
   }
 }

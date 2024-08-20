@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -24,6 +24,7 @@ let package = Package(
     .package(path: "../Domain"),
     .package(path: "../Common"),
     .package(path: "../NetworkPlatform"),
+    .package(path: "../Reachability"),
     .package(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       from: "1.13.0"
@@ -37,6 +38,7 @@ let package = Package(
         .product(name: "Domain", package: "Domain"),
         .product(name: "Common", package: "Common"),
         .product(name: "NetworkPlatform", package: "NetworkPlatform"),
+        .product(name: "Reachability", package: "Reachability"),
         .product(
           name: "ComposableArchitecture",
           package: "swift-composable-architecture"),

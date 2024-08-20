@@ -82,7 +82,9 @@ public struct RepositoryListFeature {
         return .none
       case let .repositoryResponse(.failure(error)):
         state.isLoading = false
-        state.destination = .alert(.showError(error.localizedDescription))
+        let _error = error as? AppError
+        let errorString = _error?.errorDescription ?? error.localizedDescription
+        state.destination = .alert(.showError(errorString))
         return .none
       case let .repositorySelected(repo):
         if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {

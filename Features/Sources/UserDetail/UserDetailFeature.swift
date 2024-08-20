@@ -76,8 +76,10 @@ public struct UserDetailFeature {
         state.isLoading = false
         return .none
       case let .userDetailResponse(.failure(error)):
+        let _error = error as? AppError
+        let errorString = _error?.errorDescription ?? error.localizedDescription
         state.isLoading = false
-        state.destination = .alert(.showError(error.localizedDescription))
+        state.destination = .alert(.showError(errorString))
         return .none
       case .profileSummarySelected:
         let profileURL =
