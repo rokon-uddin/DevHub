@@ -48,7 +48,6 @@ public struct HomeFeature {
         return .run { send in
           for try await networkPath in await reachabilityClient.networkPathPublisher() {
             let isOnline = networkPath.reachability.isOnline
-            print("\(networkPath): \(isOnline)")
             await send(.updateReachability(isOnline: isOnline))
           }
         }
