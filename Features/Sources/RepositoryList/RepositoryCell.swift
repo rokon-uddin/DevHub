@@ -64,7 +64,6 @@ public struct RepositoryCell: View {
             }
           }
           Spacer()
-          Icon.arrow
         }
         .frame(height: 64)
         .frame(maxWidth: .infinity)

@@ -9,6 +9,7 @@ import Common
 import ComposableArchitecture
 import Domain
 import Foundation
+import RepositoryList
 import Utilities
 
 @Reducer
@@ -30,9 +31,11 @@ public struct UserDetailFeature {
     public var user: User
     var isLoading = false
     public var userDetail: UserDetail?
+    var repositoryList: RepositoryListFeature.State
 
     public init(user: User) {
       self.user = user
+      self.repositoryList = .init(user)
     }
 
     public var bio: String { userDetail?.bio ?? "" }
@@ -48,18 +51,12 @@ public struct UserDetailFeature {
 
   public enum Action {
     case onAppear
-    case userDetailResponse(Result<UserDetail?, Error>)
-    case delegate(Delegate)
-    case reposButtonTapped
     case closeButtonTapped
     case openInSafariTapped(URL)
     case profileSummarySelected
+    case repositoryList(RepositoryListFeature.Action)
+    case userDetailResponse(Result<UserDetail?, Error>)
     case destination(PresentationAction<Destination.Action>)
-  }
-
-  @CasePathable
-  public enum Delegate {
-    case repositories(User)
   }
 
   @Dependency(\.openURL) var openURL
@@ -67,6 +64,9 @@ public struct UserDetailFeature {
   public init() {}
 
   public var body: some ReducerOf<Self> {
+    Scope(state: \.repositoryList, action: \.repositoryList) {
+      RepositoryListFeature()
+    }
     Reduce { state, action in
       switch action {
       case .onAppear:
@@ -78,10 +78,6 @@ public struct UserDetailFeature {
       case let .userDetailResponse(.failure(error)):
         state.isLoading = false
         state.destination = .alert(.showError(error.localizedDescription))
-        return .none
-      case .reposButtonTapped:
-        return .send(.delegate(.repositories(state.user)))
-      case .delegate:
         return .none
       case .profileSummarySelected:
         let profileURL =
@@ -95,6 +91,8 @@ public struct UserDetailFeature {
         case .retry:
           return userDetail(state: &state)
         }
+      case .repositoryList:
+        return .none
       case .destination:
         return .none
       case let .openInSafariTapped(url):

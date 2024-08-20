@@ -9,7 +9,6 @@ import Common
 import ComposableArchitecture
 import Domain
 import Foundation
-import UserDetail
 import Utilities
 
 @Reducer
@@ -69,7 +68,7 @@ public struct RepositoryListFeature {
         return githubRepositories(state: &state)
       case .refresh:
         resetPage(state: &state)
-        return githubRepositories(state: &state)
+        return githubRepositories(showLoader: false, state: &state)
       case let .repositoryResponse(.success(response)):
         state.totalCount = response.totalCount ?? 0
         if let repos = response.items {
@@ -124,9 +123,9 @@ extension RepositoryListFeature {
     state.repositories = []
   }
 
-  private func githubRepositories(state: inout State) -> Effect<Action> {
+  private func githubRepositories(showLoader: Bool = true, state: inout State) -> Effect<Action> {
     if state.repositories.isEmpty {
-      state.isLoading = true
+      state.isLoading = showLoader
     }
     var query: RepositoryQuery {
       let page = state.searchText.isEmpty ? state.page : 1

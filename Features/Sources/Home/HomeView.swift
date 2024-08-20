@@ -8,7 +8,6 @@
 import Common
 import ComposableArchitecture
 import Domain
-import RepositoryList
 import SwiftUI
 import UserDetail
 
@@ -30,9 +29,6 @@ public struct HomeView: View {
         switch store.case {
         case let .detail(store):
           UserDetailView(store: store)
-            .toolbarRole(.editor)
-        case let .repos(store):
-          RepositoryListView(store: store)
             .toolbarRole(.editor)
         }
       }

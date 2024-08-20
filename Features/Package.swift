@@ -34,7 +34,6 @@ let package = Package(
       name: "Home",
       dependencies: [
         "UserDetail",
-        "RepositoryList",
         .product(name: "Domain", package: "Domain"),
         .product(name: "Common", package: "Common"),
         .product(name: "NetworkPlatform", package: "NetworkPlatform"),
@@ -46,6 +45,7 @@ let package = Package(
     .target(
       name: "UserDetail",
       dependencies: [
+        "RepositoryList",
         .product(name: "Domain", package: "Domain"),
         .product(name: "Common", package: "Common"),
         .product(name: "NetworkPlatform", package: "NetworkPlatform"),
@@ -57,7 +57,6 @@ let package = Package(
     .target(
       name: "RepositoryList",
       dependencies: [
-        "UserDetail",
         .product(name: "Domain", package: "Domain"),
         .product(name: "Common", package: "Common"),
         .product(name: "NetworkPlatform", package: "NetworkPlatform"),

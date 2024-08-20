@@ -21,13 +21,12 @@ public struct RepositoryListView: View {
   public var body: some View {
     WithPerceptionTracking {
       VStack(spacing: 0) {
-        Avatar(store.user.avatarURL, size: 96)
-          .padding([.top, .bottom], 8.0)
         DebouncedTextField(text: $store.searchText)
         if store.isLoading {
           ProgressView()
         }
-        ScrollView {
+
+        List {
           ForEach(store.repositories) { repo in
             RepositoryCell(model: repo.toViewModel) {
               store.send(.repositorySelected(repo))
@@ -38,23 +37,25 @@ public struct RepositoryListView: View {
               }
             }
           }
+          .listRowBackground(
+            RoundedRectangle(cornerRadius: 8)
+              .foregroundColor(Color.foreground)
+              .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+          )
+          .listRowSeparator(.hidden)
+
           Spacer()
-            .frame(height: 64)
+            .listRowBackground(Color.background)
+            .listRowSeparator(.hidden)
         }
+        .background(Color.background)
         .scrollIndicators(.hidden)
         .listStyle(.plain)
-        .background(Color.background)
         .refreshable {
           store.send(.refresh)
         }
       }
       .frame(maxWidth: .infinity)
-      .padding(4.0)
-      .padding(.top, 88)
-      .navigationTitle("Repositories")
-      .navigationBarTitleDisplayMode(.inline)
-      .background(Color.background)
-      .ignoresSafeArea()
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {
         store.send(.onAppear)

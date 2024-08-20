@@ -7,6 +7,7 @@
 
 import Common
 import ComposableArchitecture
+import RepositoryList
 import SwiftUI
 
 public struct UserDetailView: View {
@@ -30,42 +31,11 @@ public struct UserDetailView: View {
             .foregroundStyle(Color.text)
         }
         .padding(.bottom, 8.0)
-
-        HStack {
-          CustomButton(title: "Repositories", subTitle: store.publicRepos) {
-            store.send(.reposButtonTapped)
-          }
-
-          CustomButton(title: "Followers", subTitle: store.followersCount) {}
-          CustomButton(title: "Following", subTitle: store.followingCount) {}
-
-        }
-        .padding(4.0)
-
-        ScrollView {
-          CustomCell(
-            title: "Created", detail: store.createdAt, icon: Image.created)
-          CustomCell(
-            title: "Updated", detail: store.updatedAt, icon: Image.updated)
-          CustomCell(title: "Stars", icon: Image.star) {
-            //TODO: implement navigation
-          }
-          CustomCell(title: "Watching", icon: Image.theme) {
-            //TODO: implement navigation
-          }
-          CustomCell(title: "Events", icon: Image.events) {
-            //TODO: implement navigation
-          }
-          CustomCell(title: "Profile Summary", icon: Image.profileSummary) {
-            store.send(.profileSummarySelected)
-          }
-        }
-        .padding(.top, 8.0)
-        .refreshable {
-          //TODO: Implement pull to refresh
-        }
+        RepositoryListView(
+          store: store.scope(state: \.repositoryList, action: \.repositoryList)
+        )
+        Spacer()
       }
-      .scrollIndicators(.hidden)
       .padding(4.0)
       .padding(.top, 76)
       .background(Color.background)
