@@ -19,16 +19,14 @@ public struct DebouncedTextField: View {
     if #available(iOS 17.0, *) {
       TextField("Search", text: $filterText)
         .onChange(of: filterText) { self.text = $1 }
-        .padding()
-        .textFieldStyle(RoundedBorderTextFieldStyle())
+        .textFieldStyle(.roundedBorder)
         .onAppear {
           UITextField.appearance().clearButtonMode = .whileEditing
         }
     } else {
       TextField("Search", text: $filterText)
         .onChange(of: filterText) { self.text = $0 }
-        .padding()
-        .textFieldStyle(RoundedBorderTextFieldStyle())
+        .textFieldStyle(.roundedBorder)
         .onAppear {
           UITextField.appearance().clearButtonMode = .whileEditing
         }

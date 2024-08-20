@@ -22,37 +22,43 @@ public struct RepositoryListView: View {
     WithPerceptionTracking {
       VStack(spacing: 0) {
         DebouncedTextField(text: $store.searchText)
-        if store.isLoading {
-          ProgressView()
-        }
-
-        List {
-          ForEach(store.repositories) { repo in
-            RepositoryCell(model: repo.toViewModel) {
-              store.send(.repositorySelected(repo))
-            }
-            .onAppear {
-              if repo == store.repositories.last {
-                store.send(.nextPage)
+          .padding(.bottom, 4)
+          .padding([.leading, .trailing], 8)
+        ZStack(alignment: .bottom) {
+          List {
+            ForEach(store.repositories) { repo in
+              RepositoryCell(model: repo.toViewModel) {
+                store.send(.repositorySelected(repo))
+              }
+              .onAppear {
+                if repo == store.repositories.last {
+                  store.send(.nextPage)
+                }
               }
             }
-          }
-          .listRowBackground(
-            RoundedRectangle(cornerRadius: 8)
-              .foregroundColor(Color.foreground)
-              .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
-          )
-          .listRowSeparator(.hidden)
-
-          Spacer()
-            .listRowBackground(Color.background)
+            .listRowBackground(
+              RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(Color.foreground)
+                .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+            )
             .listRowSeparator(.hidden)
-        }
-        .background(Color.background)
-        .scrollIndicators(.hidden)
-        .listStyle(.plain)
-        .refreshable {
-          store.send(.refresh)
+
+            Spacer()
+              .listRowBackground(Color.background)
+              .listRowSeparator(.hidden)
+          }
+          
+          .background(Color.background)
+          .scrollIndicators(.hidden)
+          .listStyle(.plain)
+          .refreshable {
+            store.send(.refresh)
+          }
+          
+          if store.isLoading {
+            LoadingIndicator()
+              .padding(.bottom, 24)
+          }
         }
       }
       .frame(maxWidth: .infinity)

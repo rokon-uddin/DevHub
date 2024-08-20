@@ -38,6 +38,7 @@ public struct UserListFeature {
   public enum Action {
     case onAppear
     case nextUsers
+    case refresh
     case usersResponse(Result<RemoteResponse<Users>?, Error>)
     case destination(PresentationAction<Destination.Action>)
   }
@@ -51,11 +52,6 @@ public struct UserListFeature {
       switch action {
       case .onAppear:
         return githubUsers(state: &state)
-      case .nextUsers:
-        if !state.isLoading {
-          return githubUsers(state: &state)
-        }
-        return .none
       case let .usersResponse(.success(users)):
         if let users = users?.body {
           state.users.append(contentsOf: users)
@@ -67,6 +63,15 @@ public struct UserListFeature {
       case let .usersResponse(.failure(error)):
         state.destination = .alert(.showError(error.localizedDescription))
         return .none
+      case .nextUsers:
+        if !state.isLoading {
+          return githubUsers(state: &state)
+        }
+        return .none
+      case .refresh:
+        state.nextPage =  0
+        state.users = []
+        return githubUsers(state: &state)
       case let .destination(.presented(.alert(alertAction))):
         switch alertAction {
         case .retry:
@@ -82,6 +87,7 @@ public struct UserListFeature {
 
 extension UserListFeature {
   private func githubUsers(state: inout State) -> Effect<Action> {
+    state.isLoading = true
     return .run { [state] send in
       await send(
         .usersResponse(

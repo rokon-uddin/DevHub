@@ -14,10 +14,12 @@ import WebKit
 public struct WebViewFeature {
   @ObservableState
   public struct State: Equatable {
+    public let title: String
     public let url: URL
     var isLoading: Bool = false
 
-    public init(url: URL) {
+    public init(title: String, url: URL) {
+      self.title = title
       self.url = url
     }
   }

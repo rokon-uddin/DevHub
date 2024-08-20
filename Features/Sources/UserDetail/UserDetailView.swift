@@ -20,22 +20,16 @@ public struct UserDetailView: View {
   public var body: some View {
     WithPerceptionTracking {
       VStack(spacing: 0) {
-        Text(store.name)
-          .font(.title3)
-          .foregroundStyle(.gray)
-        Spacer()
-          .frame(height: 24)
-        HStack(spacing: 8) {
-          Avatar(store.url, size: 120)
-          Text(store.bio)
-            .foregroundStyle(Color.text)
-        }
-        .padding(.bottom, 8.0)
+        HeaderView()
+          .frame(maxWidth: .infinity)
+          .frame(height: 248)
         RepositoryListView(
           store: store.scope(state: \.repositoryList, action: \.repositoryList)
         )
+
         Spacer()
       }
+      .frame(maxWidth: .infinity)
       .padding(4.0)
       .padding(.top, 76)
       .background(Color.background)
@@ -51,7 +45,7 @@ public struct UserDetailView: View {
           state: \.destination?.webView, action: \.destination.webView)
       ) { webStore in
         WebViewNavigationStack(
-          store: webStore, title: "ProfileSummary",
+          store: webStore, title: webStore.title,
           confirmationAction: {
             store.send(.openInSafariTapped(webStore.url))
           },
@@ -59,6 +53,64 @@ public struct UserDetailView: View {
             store.send(.closeButtonTapped)
           })
       }
+    }
+  }
+
+  func HeaderView() -> some View {
+    VStack(spacing: 0) {
+      Text(store.name)
+        .padding(.top, 4.0)
+        .font(.title3)
+        .foregroundStyle(.gray)
+      FollowersAndFollowingView()
+        .frame(maxWidth: .infinity)
+      Spacer()
+      HStack(spacing: 8) {
+        Avatar(store.url, size: 120)
+        Text(store.bio)
+          .foregroundStyle(Color.text)
+      }
+      CustomButton(title: "Profile Summary") {
+        store.send(.profileSummarySelected)
+      }
+      .padding(8)
+    }
+  }
+
+  func FollowersAndFollowingView() -> some View {
+    HStack {
+      Spacer()
+        .overlay {
+          HStack {
+            Spacer()
+            Text("Followers")
+              .font(.system(size: 14))
+              .fontWeight(.semibold)
+              .foregroundStyle(Color.accent)
+            Text(store.followersCount)
+              .fontWeight(.bold)
+              .foregroundStyle(Color.accent)
+          }
+        }
+      Text("|")
+        .padding([.leading, .trailing], 8)
+        .fontWeight(.heavy)
+        .font(.system(size: 16))
+        .foregroundStyle(Color.accent)
+      Spacer()
+        .overlay {
+          HStack {
+            Text(store.followingCount)
+              .fontWeight(.bold)
+              .foregroundStyle(Color.accent)
+            Text("Following")
+              .font(.system(size: 14))
+              .fontWeight(.semibold)
+              .foregroundStyle(Color.accent)
+            Spacer()
+          }
+
+        }
     }
   }
 }

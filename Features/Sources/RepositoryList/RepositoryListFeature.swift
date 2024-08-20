@@ -68,7 +68,7 @@ public struct RepositoryListFeature {
         return githubRepositories(state: &state)
       case .refresh:
         resetPage(state: &state)
-        return githubRepositories(showLoader: false, state: &state)
+        return githubRepositories(state: &state)
       case let .repositoryResponse(.success(response)):
         state.totalCount = response.totalCount ?? 0
         if let repos = response.items {
@@ -86,7 +86,7 @@ public struct RepositoryListFeature {
         return .none
       case let .repositorySelected(repo):
         if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {
-          state.destination = .webView(WebViewFeature.State(url: url))
+          state.destination = .webView(.init(title: htmlURL, url: url))
         }
         return .none
       case let .destination(.presented(.alert(alertAction))):
@@ -123,10 +123,8 @@ extension RepositoryListFeature {
     state.repositories = []
   }
 
-  private func githubRepositories(showLoader: Bool = true, state: inout State) -> Effect<Action> {
-    if state.repositories.isEmpty {
-      state.isLoading = showLoader
-    }
+  private func githubRepositories(state: inout State) -> Effect<Action> {
+    state.isLoading = true
     var query: RepositoryQuery {
       let page = state.searchText.isEmpty ? state.page : 1
       return RepositoryQuery(page: page, query: "\(state.searchText) user:\(state.user.login)")

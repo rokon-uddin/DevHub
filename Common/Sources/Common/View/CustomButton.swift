@@ -9,12 +9,10 @@ import SwiftUI
 
 public struct CustomButton: View {
   private var title: String
-  private var subTitle: String
   var action: () -> Void
 
-  public init(title: String, subTitle: String, action: @escaping () -> Void) {
+  public init(title: String, action: @escaping () -> Void) {
     self.title = title
-    self.subTitle = subTitle
     self.action = action
   }
 
@@ -29,14 +27,11 @@ public struct CustomButton: View {
               .font(.system(size: 14))
               .fontWeight(.semibold)
               .foregroundStyle(.white)
-            Text(subTitle)
-              .fontWeight(.bold)
-              .foregroundStyle(.white)
           }
         }
       }
     )
     .cornerRadius(8.0)
-    .frame(height: 48)
+    .frame(height: 40)
   }
 }

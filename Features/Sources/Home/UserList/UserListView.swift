@@ -22,29 +22,35 @@ public struct UserListView: View {
 
   public var body: some View {
     WithPerceptionTracking {
-      List {
-        ForEach(store.users) { user in
-          NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
-            UserCard(user)
-              .onAppear {
-                if user == store.users.last {
-                  store.send(.nextUsers)
+      ZStack(alignment: .bottom) {
+        List {
+          ForEach(store.users) { user in
+            NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
+              UserCard(user)
+                .onAppear {
+                  if user == store.users.last {
+                    store.send(.nextUsers)
+                  }
                 }
-              }
+            }
           }
+          .listRowBackground(
+            RoundedRectangle(cornerRadius: 8)
+              .foregroundColor(Color.foreground)
+              .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+          )
+          .listRowSeparator(.hidden)
         }
-        .listRowBackground(
-          RoundedRectangle(cornerRadius: 8)
-            .foregroundColor(Color.foreground)
-            .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
-        )
-        .listRowSeparator(.hidden)
-      }
-      .background(Color.background)
-      .listStyle(.plain)
-      .scrollIndicators(.hidden)
-      .refreshable {
-        //TODO: Implement pull to refresh
+        .background(Color.background)
+        .listStyle(.plain)
+        .scrollIndicators(.hidden)
+        .refreshable {
+          store.send(.refresh)
+        }
+
+        if store.isLoading {
+          LoadingIndicator()
+        }
       }
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .navigationTitle("Developers")
