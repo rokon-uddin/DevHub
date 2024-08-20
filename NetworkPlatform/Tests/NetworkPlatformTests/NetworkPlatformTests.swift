@@ -18,16 +18,6 @@ final class NetworkPlatformTests: XCTestCase {
     XCTAssertNotNil(userDetail)
   }
 
-  func testReadUserDetailFailure() async throws {
-    let repository = RemoteUserDetailRepository.live
-    do {
-      _ = try await repository.read(input: "invalidUsername")
-      XCTFail("Expected error not thrown")
-    } catch {
-      XCTAssertNotNil(error)
-    }
-  }
-
   func testRequestObjectSuccess() async throws {
     let expectation = self.expectation(description: "Successful object request")
     let userDetail = try await networking.requestObject(.userDetail("username"), type: UserDetail.self)

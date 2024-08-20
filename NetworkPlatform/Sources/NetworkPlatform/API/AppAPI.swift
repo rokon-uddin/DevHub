@@ -43,8 +43,11 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
   }
 
   var headers: [String: String]? {
-    let token = unitTesting ? "" : BuildConfiguration.shared.githubToken
-    return ["Authorization": "Bearer " + token]
+    if unitTesting || BuildConfiguration.shared.githubToken.isEmpty {
+      return [:]
+    }
+
+    return ["Authorization": "Bearer " + BuildConfiguration.shared.githubToken]
   }
 
   var parameters: [String: Any]? {
