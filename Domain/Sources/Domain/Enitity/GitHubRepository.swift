@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GitHubRepository: Codable, Equatable, Hashable, Identifiable {
+public struct GitHubRepository: Codable, Equatable, Hashable, Identifiable, Sendable {
   public var id: Int
   public let name: String
   public let htmlUrl: String?

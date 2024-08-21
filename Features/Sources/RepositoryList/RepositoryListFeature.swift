@@ -38,16 +38,21 @@ public struct RepositoryListFeature {
     }
   }
 
-  public enum Action: BindableAction {
+  public enum Action: ViewAction {
+    case view(View)
+    case repositoryResponse(Result<RepositoryResponse, Error>)
+    case destination(PresentationAction<Destination.Action>)
+  }
+
+  @CasePathable
+  public enum View: BindableAction, Sendable {
     case onAppear
+    case refresh
+    case nextPage
     case closeButtonTapped
     case openInSafariTapped(URL)
-    case nextPage
-    case refresh
-    case repositoryResponse(Result<RepositoryResponse, Error>)
-    case repositorySelected(GitHubRepository)
-    case destination(PresentationAction<Destination.Action>)
     case binding(BindingAction<State>)
+    case repositorySelected(GitHubRepository)
   }
 
   @Dependency(\.openURL) var openURL
@@ -56,19 +61,51 @@ public struct RepositoryListFeature {
   public init() {}
 
   public var body: some ReducerOf<Self> {
-    BindingReducer()
+    BindingReducer(action: \.view)
     Reduce { state, action in
       switch action {
-      case .onAppear:
+      //MARK: View Action
+      case .view(.onAppear):
         return githubRepositories(state: &state)
-      case .nextPage:
+      case .view(.nextPage):
         let canLoadMore = state.repositories.count < state.totalCount
         guard canLoadMore else { return .none }
         state.page += 1
         return githubRepositories(state: &state)
-      case .refresh:
+      case .view(.refresh):
         resetPage(state: &state)
         return githubRepositories(state: &state)
+      case .view(.closeButtonTapped):
+        state.destination = nil
+        return .none
+      case .view(.repositorySelected(let repo)):
+        if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {
+          state.destination = .webView(.init(title: htmlURL, url: url))
+        }
+        return .none
+      case .view(.openInSafariTapped(let url)):
+        return .run { send in
+          await openURL(url)
+        }
+
+      case .view(.binding(\.searchText)):
+        if state.searchText.isEmpty {
+          resetPage(state: &state)
+        }
+        return githubRepositories(state: &state)
+      case .view(.binding):
+        return .none
+
+      //MARK: Destination Action
+      case let .destination(.presented(.alert(alertAction))):
+        switch alertAction {
+        case .retry:
+          return githubRepositories(state: &state)
+        }
+      case .destination:
+        return .none
+
+      //MARK: Internal Action
       case let .repositoryResponse(.success(response)):
         state.isLoading = false
         state.totalCount = response.totalCount ?? 0
@@ -83,32 +120,6 @@ public struct RepositoryListFeature {
       case let .repositoryResponse(.failure(error)):
         state.isLoading = false
         state.destination = .alert(.showError(error.localizedDescription))
-        return .none
-      case let .repositorySelected(repo):
-        if let htmlURL = repo.htmlUrl, let url = URL(string: htmlURL) {
-          state.destination = .webView(.init(title: htmlURL, url: url))
-        }
-        return .none
-      case let .destination(.presented(.alert(alertAction))):
-        switch alertAction {
-        case .retry:
-          return githubRepositories(state: &state)
-        }
-      case .destination:
-        return .none
-      case let .openInSafariTapped(url):
-        return .run { send in
-          await openURL(url)
-        }
-      case .binding(\.searchText):
-        if state.searchText.isEmpty {
-          resetPage(state: &state)
-        }
-        return githubRepositories(state: &state)
-      case .binding(_):
-        return .none
-      case .closeButtonTapped:
-        state.destination = nil
         return .none
       }
     }

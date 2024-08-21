@@ -11,8 +11,9 @@ import Domain
 import SwiftUI
 import WebKit
 
+@ViewAction(for: RepositoryListFeature.self)
 public struct RepositoryListView: View {
-  @Perception.Bindable var store: StoreOf<RepositoryListFeature>
+  @Perception.Bindable public var store: StoreOf<RepositoryListFeature>
 
   public init(store: StoreOf<RepositoryListFeature>) {
     self.store = store
@@ -28,11 +29,11 @@ public struct RepositoryListView: View {
           List {
             ForEach(store.repositories) { repo in
               RepositoryCell(model: repo.toViewModel) {
-                store.send(.repositorySelected(repo))
+                send(.repositorySelected(repo))
               }
               .onAppear {
                 if repo == store.repositories.last {
-                  store.send(.nextPage)
+                  send(.nextPage)
                 }
               }
             }
@@ -52,7 +53,7 @@ public struct RepositoryListView: View {
           .scrollIndicators(.hidden)
           .listStyle(.plain)
           .refreshable {
-            store.send(.refresh)
+            send(.refresh)
           }
           
           if store.isLoading {
@@ -64,7 +65,7 @@ public struct RepositoryListView: View {
       .frame(maxWidth: .infinity)
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {
-        store.send(.onAppear)
+        send(.onAppear)
       }
       .sheet(
         item: $store.scope(
@@ -73,10 +74,10 @@ public struct RepositoryListView: View {
         WebViewNavigationStack(
           store: webStore, title: webStore.url.absoluteString,
           confirmationAction: {
-            store.send(.openInSafariTapped(webStore.url))
+            send(.openInSafariTapped(webStore.url))
           },
           cancellationAction: {
-            store.send(.closeButtonTapped)
+            send(.closeButtonTapped)
           })
       }
     }

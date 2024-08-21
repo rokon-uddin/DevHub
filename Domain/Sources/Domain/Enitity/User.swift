@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - User
-public struct User: Codable, Equatable, Hashable, Identifiable {
+public struct User: Codable, Equatable, Hashable, Identifiable, Sendable {
   public let login: String
   public let id: Int
   public let nodeID: String
@@ -80,7 +80,7 @@ public struct User: Codable, Equatable, Hashable, Identifiable {
   }
 }
 
-public enum TypeEnum: String, Codable, Equatable {
+public enum TypeEnum: String, Codable, Equatable, Sendable {
   case organization = "Organization"
   case user = "User"
 }
