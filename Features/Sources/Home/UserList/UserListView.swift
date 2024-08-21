@@ -25,7 +25,11 @@ public struct UserListView: View {
     WithPerceptionTracking {
       ZStack(alignment: .bottom) {
         if store.centerLoadingIndicator {
-          ProgressView()
+          ZStack {
+            Color.background
+            ProgressView()
+          }
+          .ignoresSafeArea()
         } else {
           List {
             ForEach(store.users) { user in

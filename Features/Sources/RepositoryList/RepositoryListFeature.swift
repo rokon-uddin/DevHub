@@ -150,7 +150,7 @@ extension RepositoryListFeature {
     state.isLoading = true
     var query: RepositoryQuery {
       let page = state.searchText.isEmpty ? state.page : 1
-      return RepositoryQuery(page: page, query: "\(state.searchText) user:\(state.user.login)")
+      return RepositoryQuery(page: page, login: state.user.login, searchText: state.searchText)
     }
 
     return .run { [query] send in

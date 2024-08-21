@@ -14,19 +14,21 @@ import XCTest
 @testable import Reachability
 
 final class HomeFeatureTests: XCTestCase {
-  
+
   @MainActor
-    func testOnApperFailure() async {
-      let client = ReachabilityClient.unsatisfied
-      let response = await client.networkPathPublisher()
-      let store = TestStore(initialState: HomeFeature.State()) {
-        HomeFeature()
-      } withDependencies: {
-        $0.reachabilityClient.networkPathPublisher = { response }
-      }
-      await store.send(.onAppear)
-      await store.receive(\.updateReachability) {
-        $0.showToast = true
-      }
+  func testOnApperFailure() async {
+    let client = ReachabilityClient.unsatisfied
+    let response = await client.networkPathPublisher()
+    let store = TestStore(initialState: HomeFeature.State()) {
+      HomeFeature()
+    } withDependencies: {
+      $0.reachabilityClient.networkPathPublisher = { response }
     }
+    let onAppearTask = await store.send(\.view.onAppear)
+    await store.receive(\.updateReachability) {
+      $0.showToast = true
+    }
+    
+    await onAppearTask.finish()
+  }
 }

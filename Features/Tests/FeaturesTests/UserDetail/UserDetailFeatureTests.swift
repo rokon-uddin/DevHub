@@ -23,10 +23,7 @@ final class UserDetailFeatureTests: XCTestCase {
     } withDependencies: {
       $0.userDetailClient.userDetail = response
     }
-    await store.send(.onAppear) {
-      $0.isLoading = true
-    }
-
+    await store.send(\.view.onAppear)
     await store.receive(\.userDetailResponse) {
       $0.isLoading = false
       $0.userDetail = .mock
@@ -44,9 +41,7 @@ final class UserDetailFeatureTests: XCTestCase {
     } withDependencies: {
       $0.userDetailClient.userDetail = response
     }
-    await store.send(.onAppear) {
-      $0.isLoading = true
-    }
+    await store.send(\.view.onAppear)
 
     await store.receive(\.userDetailResponse.failure) {
       $0.isLoading = false

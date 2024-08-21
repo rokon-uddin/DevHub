@@ -56,7 +56,7 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
     case .users(let page):
       params["since"] = page
     case .repositories(let param):
-      params["q"] = param.query
+      params["q"] = "\(param.searchText) user:\(param.login)"
       params["page"] = param.page
       params["per_page"] = param.itemPerPage
     default:
@@ -77,7 +77,7 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
     case .userDetail:
       fileName = "UserDetail"
     case let .repositories(query):
-      if query.query.isEmpty {
+      if query.searchText.isEmpty {
         fileName = "Repos_\(query.page)"
       } else {
         fileName = "Repos_Search"
@@ -92,7 +92,7 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
       let parameters: [String: Any] = [
         "page": param.page,
         "per_page": param.itemPerPage,
-        "q": param.query,
+        "q": "\(param.searchText) user:\(param.login)",
       ]
       return .requestParameters(
         parameters: parameters, encoding: URLEncoding.queryString)

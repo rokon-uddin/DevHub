@@ -21,7 +21,11 @@ public struct UserDetailView: View {
   public var body: some View {
     WithPerceptionTracking {
       if store.isLoading {
-        ProgressView()
+        ZStack {
+          Color.background
+          ProgressView()
+        }
+        .ignoresSafeArea()
           .onAppear { send(.onAppear) }
       } else {
         VStack(spacing: 0) {

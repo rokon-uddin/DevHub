@@ -26,12 +26,13 @@ final class UserDetailSnapshotTests: XCTestCase {
       $0.userDetailClient.userDetail = response
     }
 
+    store.send(.view(.onAppear))
+
     let view = UserDetailView(store: store)
     let vc = UIHostingController(rootView: view)
-    store.send(.onAppear)
 
-    let expectation = self.expectation(description: "wait")
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+    let expectation = self.expectation(description: "expectation")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       expectation.fulfill()
     }
     await fulfillment(of: [expectation])
@@ -58,10 +59,10 @@ final class UserDetailSnapshotTests: XCTestCase {
 
     let view = UserDetailView(store: store)
     let vc = UIHostingController(rootView: view)
-    store.send(.onAppear)
-
-    let expectation = self.expectation(description: "wait")
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+    store.send(.view(.onAppear))
+    
+    let expectation = self.expectation(description: "expectation")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       expectation.fulfill()
     }
     await fulfillment(of: [expectation])

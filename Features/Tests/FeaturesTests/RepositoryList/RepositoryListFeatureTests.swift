@@ -24,11 +24,10 @@ final class RepositoryListTests: XCTestCase {
       $0.repositoriesClient.githubRepositories = response
     }
 
-    await store.send(.onAppear)
+    await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
       $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories = mockSearchResponse.items
       $0.repositories = mockSearchResponse.items
     }
   }
@@ -45,7 +44,7 @@ final class RepositoryListTests: XCTestCase {
       $0.repositoriesClient.githubRepositories = response
     }
 
-    await store.send(.onAppear)
+    await store.send(\.view.onAppear)
 
     await store.receive(\.repositoryResponse.failure) {
       $0.isLoading = false
@@ -63,14 +62,14 @@ final class RepositoryListTests: XCTestCase {
       $0.repositoriesClient.githubRepositories = response
     }
 
-    await store.send(.onAppear)
+    await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
       $0.totalCount = mockSearchResponse.totalCount ?? 0
       $0.repositories = mockSearchResponse.items
     }
 
-    await store.send(.nextPage) {
+    await store.send(\.view.nextPage) {
       $0.page += 1
       $0.isLoading = true
     }
@@ -80,5 +79,35 @@ final class RepositoryListTests: XCTestCase {
       $0.totalCount = mockSearchResponse.totalCount ?? 0
       $0.repositories.append(contentsOf: mockSearchResponseNext.items)
     }
+  }
+
+  @MainActor
+  func testSearchRepoAvailable() async {
+    let client = RepositoryClient.testValue
+    let response = client.githubRepositories
+    let store = TestStore(initialState: RepositoryListFeature.State(.mock)) {
+      RepositoryListFeature()
+    } withDependencies: {
+      $0.repositoriesClient.githubRepositories = response
+    }
+
+    await store.send(\.view.onAppear)
+    await store.receive(\.repositoryResponse) {
+      $0.isLoading = false
+      $0.totalCount = mockSearchResponse.totalCount ?? 0
+      $0.repositories = mockSearchResponse.items
+    }
+
+    await store.send(\.view.binding.searchText, "javascript-decorators") {
+      $0.searchText = "javascript-decorators"
+      $0.isLoading = true
+    }
+
+    await store.receive(\.repositoryResponse) {
+      $0.isLoading = false
+      $0.totalCount = mockSearchResponse.totalCount ?? 0
+      $0.repositories = mockSearchResponse.items
+    }
+
   }
 }
