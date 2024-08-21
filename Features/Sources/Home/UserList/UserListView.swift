@@ -13,8 +13,9 @@ import SwiftUI
 import UserDetail
 import WebKit
 
+@ViewAction(for: UserListFeature.self)
 public struct UserListView: View {
-  @Perception.Bindable var store: StoreOf<UserListFeature>
+  @Perception.Bindable public var store: StoreOf<UserListFeature>
 
   public init(store: StoreOf<UserListFeature>) {
     self.store = store
@@ -29,7 +30,7 @@ public struct UserListView: View {
               UserCard(user)
                 .onAppear {
                   if user == store.users.last {
-                    store.send(.nextUsers)
+                    send(.nextUsers)
                   }
                 }
             }
@@ -44,9 +45,7 @@ public struct UserListView: View {
         .background(Color.background)
         .listStyle(.plain)
         .scrollIndicators(.hidden)
-        .refreshable {
-          store.send(.refresh)
-        }
+        .refreshable { send(.refresh) }
 
         if store.isLoading {
           LoadingIndicator()
@@ -54,9 +53,7 @@ public struct UserListView: View {
       }
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .navigationTitle("Developers")
-      .onAppear {
-        store.send(.onAppear)
-      }
+      .onAppear { send(.onAppear) }
     }
   }
   private func UserCard(_ user: User) -> some View {

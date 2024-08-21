@@ -35,12 +35,16 @@ public struct UserListFeature {
     public init() {}
   }
 
-  public enum Action {
+  public enum Action: ViewAction {
+    case view(View)
+    case usersResponse(Result<RemoteResponse<Users>?, Error>)
+    case destination(PresentationAction<Destination.Action>)
+  }
+
+  public enum View: Sendable {
     case onAppear
     case nextUsers
     case refresh
-    case usersResponse(Result<RemoteResponse<Users>?, Error>)
-    case destination(PresentationAction<Destination.Action>)
   }
 
   @Dependency(\.usersClient) var usersClient
@@ -50,8 +54,29 @@ public struct UserListFeature {
   public var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
-      case .onAppear:
+      //MARK: View Action
+      case .view(.onAppear):
         return githubUsers(state: &state)
+      case .view(.nextUsers):
+        if !state.isLoading {
+          return githubUsers(state: &state)
+        }
+        return .none
+      case .view(.refresh):
+        state.nextPage = 0
+        state.users = []
+        return githubUsers(state: &state)
+
+      //MARK: Destination Action
+      case let .destination(.presented(.alert(alertAction))):
+        switch alertAction {
+        case .retry:
+          return githubUsers(state: &state)
+        }
+      case .destination:
+        return .none
+
+      //MARK: Internal Action
       case let .usersResponse(.success(users)):
         if let users = users?.body {
           state.users.append(contentsOf: users)
@@ -62,22 +87,6 @@ public struct UserListFeature {
         return .none
       case let .usersResponse(.failure(error)):
         state.destination = .alert(.showError(error.localizedDescription))
-        return .none
-      case .nextUsers:
-        if !state.isLoading {
-          return githubUsers(state: &state)
-        }
-        return .none
-      case .refresh:
-        state.nextPage =  0
-        state.users = []
-        return githubUsers(state: &state)
-      case let .destination(.presented(.alert(alertAction))):
-        switch alertAction {
-        case .retry:
-          return githubUsers(state: &state)
-        }
-      case .destination:
         return .none
       }
     }
