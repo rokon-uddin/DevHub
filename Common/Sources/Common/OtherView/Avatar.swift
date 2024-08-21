@@ -29,6 +29,7 @@ public struct Avatar: View {
       .resizable()
       .aspectRatio(contentMode: .fit)
       .foregroundColor(Color.accent)
+      .padding(.top, 8)
 
     if let avatarURL, let url = URL(string: avatarURL) {
       AsyncImage(url: url) { image in

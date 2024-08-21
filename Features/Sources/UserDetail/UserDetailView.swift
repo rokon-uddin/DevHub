@@ -20,32 +20,36 @@ public struct UserDetailView: View {
 
   public var body: some View {
     WithPerceptionTracking {
-      VStack(spacing: 0) {
-        HeaderView()
-          .frame(maxWidth: .infinity)
-          .frame(height: 248)
-        RepositoryListView(
-          store: store.scope(state: \.repositoryList, action: \.repositoryList)
-        )
-        Spacer()
-      }
-      .frame(maxWidth: .infinity)
-      .padding(4.0)
-      .padding(.top, 76)
-      .ignoresSafeArea()
-      .background(Color.background)
-      .navigationTitle(store.login)
-      .navigationBarTitleDisplayMode(.inline)
-      .onAppear { send(.onAppear) }
-      .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-      .sheet(
-        item: $store.scope(
-          state: \.destination?.webView, action: \.destination.webView)
-      ) { webStore in
-        WebViewNavigationStack(
-          store: webStore, title: webStore.title,
-          confirmationAction: { send(.openInSafariTapped(webStore.url)) },
-          cancellationAction: { send(.closeButtonTapped) })
+      if store.isLoading {
+        ProgressView()
+          .onAppear { send(.onAppear) }
+      } else {
+        VStack(spacing: 0) {
+          HeaderView()
+            .frame(maxWidth: .infinity)
+            .frame(height: 248)
+          RepositoryListView(
+            store: store.scope(state: \.repositoryList, action: \.repositoryList)
+          )
+          Spacer()
+        }
+        .frame(maxWidth: .infinity)
+        .padding(4.0)
+        .padding(.top, 76)
+        .ignoresSafeArea()
+        .background(Color.background)
+        .navigationTitle(store.login)
+        .navigationBarTitleDisplayMode(.inline)
+        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+        .sheet(
+          item: $store.scope(
+            state: \.destination?.webView, action: \.destination.webView)
+        ) { webStore in
+          WebViewNavigationStack(
+            store: webStore, title: webStore.title,
+            confirmationAction: { send(.openInSafariTapped(webStore.url)) },
+            cancellationAction: { send(.closeButtonTapped) })
+        }
       }
     }
   }
@@ -64,7 +68,7 @@ public struct UserDetailView: View {
         Text(store.bio)
           .foregroundStyle(Color.text)
       }
-      
+
       CustomButton(title: "Profile Summary") {
         send(.profileSummarySelected)
       }

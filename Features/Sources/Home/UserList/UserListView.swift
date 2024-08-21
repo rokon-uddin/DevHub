@@ -24,37 +24,41 @@ public struct UserListView: View {
   public var body: some View {
     WithPerceptionTracking {
       ZStack(alignment: .bottom) {
-        List {
-          ForEach(store.users) { user in
-            NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
-              UserCard(user)
-                .onAppear {
-                  if user == store.users.last {
-                    send(.nextUsers)
+        if store.centerLoadingIndicator {
+          ProgressView()
+        } else {
+          List {
+            ForEach(store.users) { user in
+              NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
+                UserCard(user)
+                  .onAppear {
+                    if user == store.users.last {
+                      send(.nextUsers)
+                    }
                   }
-                }
+              }
             }
+            .listRowBackground(
+              RoundedRectangle(cornerRadius: 8)
+                .foregroundColor(Color.foreground)
+                .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+            )
+            .listRowSeparator(.hidden)
           }
-          .listRowBackground(
-            RoundedRectangle(cornerRadius: 8)
-              .foregroundColor(Color.foreground)
-              .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
-          )
-          .listRowSeparator(.hidden)
+          .background(Color.background)
+          .listStyle(.plain)
+          .scrollIndicators(.hidden)
+          .refreshable { send(.refresh) }
         }
-        .background(Color.background)
-        .listStyle(.plain)
-        .scrollIndicators(.hidden)
-        .refreshable { send(.refresh) }
 
-        if store.isLoading {
+        if store.bottomLoadingIndicator {
           LoadingIndicator()
         }
       }
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .navigationTitle("Developers")
-      .onAppear { send(.onAppear) }
     }
+    .onAppear { send(.onAppear) }
   }
   private func UserCard(_ user: User) -> some View {
     return HStack(alignment: .center, spacing: 16) {

@@ -29,7 +29,7 @@ public struct UserDetailFeature {
   public struct State: Equatable {
     @Presents var destination: Destination.State?
     public var user: User
-    var isLoading = false
+    var isLoading = true
     public var userDetail: UserDetail?
     var repositoryList: RepositoryListFeature.State
 
@@ -118,7 +118,6 @@ public struct UserDetailFeature {
 
 extension UserDetailFeature {
   private func userDetail(state: inout State) -> Effect<Action> {
-    guard !state.isLoading else { return .none }
     state.isLoading = true
     return .run { [state] send in
       await send(

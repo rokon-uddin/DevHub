@@ -26,37 +26,43 @@ public struct RepositoryListView: View {
           .padding(.bottom, 4)
           .padding([.leading, .trailing], 8)
         ZStack(alignment: .bottom) {
-          List {
-            ForEach(store.repositories) { repo in
-              RepositoryCell(model: repo.toViewModel) {
-                send(.repositorySelected(repo))
-              }
-              .onAppear {
-                if repo == store.repositories.last {
-                  send(.nextPage)
+          if store.centerLoadingIndicator {
+            ProgressView()
+          } else if store.noSearchResults {
+            NoSearchResultsView(store.searchText)
+          } else {
+            List {
+              ForEach(store.repositories) { repo in
+                RepositoryCell(model: repo.toViewModel) {
+                  send(.repositorySelected(repo))
+                }
+                .onAppear {
+                  if repo == store.repositories.last {
+                    send(.nextPage)
+                  }
                 }
               }
-            }
-            .listRowBackground(
-              RoundedRectangle(cornerRadius: 8)
-                .foregroundColor(Color.foreground)
-                .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
-            )
-            .listRowSeparator(.hidden)
-
-            Spacer()
-              .listRowBackground(Color.background)
+              .listRowBackground(
+                RoundedRectangle(cornerRadius: 8)
+                  .foregroundColor(Color.foreground)
+                  .padding(EdgeInsets(top: 2, leading: 8, bottom: 2, trailing: 8))
+              )
               .listRowSeparator(.hidden)
+
+              Spacer()
+                .listRowBackground(Color.background)
+                .listRowSeparator(.hidden)
+            }
+
+            .background(Color.background)
+            .scrollIndicators(.hidden)
+            .listStyle(.plain)
+            .refreshable {
+              send(.refresh)
+            }
           }
-          
-          .background(Color.background)
-          .scrollIndicators(.hidden)
-          .listStyle(.plain)
-          .refreshable {
-            send(.refresh)
-          }
-          
-          if store.isLoading {
+
+          if store.bottomLoadingIndicator {
             LoadingIndicator()
               .padding(.bottom, 24)
           }

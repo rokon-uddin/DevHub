@@ -33,6 +33,14 @@ public struct UserListFeature {
     var isLoading = true
 
     public init() {}
+
+    var centerLoadingIndicator: Bool {
+      isLoading && users.isEmpty
+    }
+
+    var bottomLoadingIndicator: Bool {
+      isLoading && !users.isEmpty
+    }
   }
 
   public enum Action: ViewAction {
@@ -78,14 +86,15 @@ public struct UserListFeature {
 
       //MARK: Internal Action
       case let .usersResponse(.success(users)):
+        state.isLoading = false
         if let users = users?.body {
           state.users.append(contentsOf: users)
         }
         let next = users?.nextPage ?? ""
         state.nextPage = Int.parse(from: next) ?? 0
-        state.isLoading = false
         return .none
       case let .usersResponse(.failure(error)):
+        state.isLoading = false
         state.destination = .alert(.showError(error.localizedDescription))
         return .none
       }

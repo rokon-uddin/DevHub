@@ -36,6 +36,18 @@ public struct RepositoryListFeature {
     public init(_ user: User) {
       self.user = user
     }
+
+    var centerLoadingIndicator: Bool {
+      isLoading && repositories.isEmpty
+    }
+
+    var bottomLoadingIndicator: Bool {
+      isLoading && !repositories.isEmpty
+    }
+
+    var noSearchResults: Bool {
+      !searchText.isEmpty && repositories.isEmpty
+    }
   }
 
   public enum Action: ViewAction {
