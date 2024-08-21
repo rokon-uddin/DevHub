@@ -16,7 +16,7 @@
 ## Screenshots
 
 <pre>
-<img alt="trending_developer" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/home.jpeg?raw=true" width="250">&nbsp; <img alt="developer_detail" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/repos.jpeg?raw=true" width="250">&nbsp; <img alt="repository_detail" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/repo.jpeg?raw=true" width="250">&nbsp; <img alt="profile_summary" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/summary.jpeg?raw=true" width="250">&nbsp;</pre>
+<img alt="trending_developer" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/home.png?raw=true" width="250">&nbsp; <img alt="developer_detail" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/repos.png?raw=true" width="250">&nbsp; <img alt="repository_detail" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/repo.png?raw=true" width="250">&nbsp; <img alt="profile_summary" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/summary.png?raw=true" width="250">&nbsp;</pre>
 
 ## Architecture Overview
 
