@@ -68,7 +68,7 @@ The app is structured using a Clean Architecture to promote modularity, maintain
 - [x] SwiftUI, [SwiftUI](https://developer.apple.com/xcode/swiftui/), Structure Concurrency [concurrency](https://developer.apple.com/documentation/swift/concurrency/) and [Combine](https://developer.apple.com/documentation/combine)
 - [x] Dependency injection ([swift-dependencies](https://github.com/pointfreeco/swift-dependencies))
 - [x] Add UITests
-- [ ] Add SnapshotTests
+- [x] Add SnapshotTests
 
 ## Build Configurations
 DevHub uses `.xcconfig` and `BuildConfiguration.plist` for managing environment-specific settings.
