@@ -11,17 +11,21 @@ import SwiftUI
 
 @main
 struct DevHubApp: App {
+  @MainActor
+  static let store = Store(
+    initialState: HomeFeature.State(),
+    reducer: { HomeFeature() }
+  )
   var body: some Scene {
-    let store = Store(
-      initialState: HomeFeature.State(),
-      reducer: { HomeFeature() }
-    )
-
     WindowGroup {
-      NavigationStack {
-        HomeView(store: store)
+      if _XCTIsTesting {
+        // NB: Don't run application in tests to avoid interference between the app and the test.
+        EmptyView()
+      } else {
+        HomeView(store: Self.store)
+          .accentColor(.accent)
       }
-      .accentColor(.accent)
+
     }
   }
 }

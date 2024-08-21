@@ -64,6 +64,7 @@ public struct UserDetailFeature {
     case profileSummarySelected
   }
 
+  @Dependency(\.mainQueue) var mainQueue
   @Dependency(\.openURL) var openURL
   @Dependency(\.userDetailClient) var userDetailClient
   public init() {}

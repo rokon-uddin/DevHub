@@ -39,7 +39,8 @@ let package = Package(
         .copy("Resources/StubbedResponse/Repos_1.json"),
         .copy("Resources/StubbedResponse/Repos_2.json"),
         .copy("Resources/StubbedResponse/Repos_Search.json"),
-        .copy("Resources/StubbedResponse/Users.json"),
+        .copy("Resources/StubbedResponse/Users_0.json"),
+        .copy("Resources/StubbedResponse/Users_5.json"),
         .copy("Resources/StubbedResponse/UserDetail.json"),
       ]
     ),

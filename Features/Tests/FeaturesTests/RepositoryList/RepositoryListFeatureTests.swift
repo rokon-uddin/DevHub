@@ -33,26 +33,6 @@ final class RepositoryListTests: XCTestCase {
   }
 
   @MainActor
-  func testResponseFailure() async {
-    let client = RepositoryClient(
-      useCase: RepositoryFailingUseCase())
-    let response = client.githubRepositories
-    let errorDescription = NetworkRequestError.serverError.localizedDescription
-    let store = TestStore(initialState: RepositoryListFeature.State(.mock)) {
-      RepositoryListFeature()
-    } withDependencies: {
-      $0.repositoriesClient.githubRepositories = response
-    }
-
-    await store.send(\.view.onAppear)
-
-    await store.receive(\.repositoryResponse.failure) {
-      $0.isLoading = false
-      $0.destination = .alert(.showError(errorDescription))
-    }
-  }
-
-  @MainActor
   func testLoadMoreSuccess() async {
     let client = RepositoryClient.testValue
     let response = client.githubRepositories
@@ -80,6 +60,26 @@ final class RepositoryListTests: XCTestCase {
       $0.repositories.append(contentsOf: mockSearchResponseNext.items)
     }
   }
+  
+  @MainActor
+   func testResponseFailure() async {
+     let client = RepositoryClient(
+       useCase: RepositoryFailingUseCase())
+     let response = client.githubRepositories
+     let errorDescription = NetworkRequestError.serverError.localizedDescription
+     let store = TestStore(initialState: RepositoryListFeature.State(.mock)) {
+       RepositoryListFeature()
+     } withDependencies: {
+       $0.repositoriesClient.githubRepositories = response
+     }
+
+     await store.send(\.view.onAppear)
+
+     await store.receive(\.repositoryResponse.failure) {
+       $0.isLoading = false
+       $0.destination = .alert(.showError(errorDescription))
+     }
+   }
 
   @MainActor
   func testSearchRepoAvailable() async {
@@ -108,6 +108,5 @@ final class RepositoryListTests: XCTestCase {
       $0.totalCount = mockSearchResponse.totalCount ?? 0
       $0.repositories = mockSearchResponse.items
     }
-
   }
 }

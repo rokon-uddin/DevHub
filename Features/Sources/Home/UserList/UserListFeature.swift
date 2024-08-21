@@ -49,6 +49,7 @@ public struct UserListFeature {
     case destination(PresentationAction<Destination.Action>)
   }
 
+  @CasePathable
   public enum View: Sendable {
     case onAppear
     case nextUsers

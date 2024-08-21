@@ -72,8 +72,8 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
   var sampleData: Data {
     var fileName = ""
     switch self {
-    case .users:
-      fileName = "Users"
+    case let .users(page):
+      fileName = "Users_\(page)"
     case .userDetail:
       fileName = "UserDetail"
     case let .repositories(query):
