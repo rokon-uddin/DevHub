@@ -70,6 +70,7 @@ public struct RepositoryListFeature {
         resetPage(state: &state)
         return githubRepositories(state: &state)
       case let .repositoryResponse(.success(response)):
+        state.isLoading = false
         state.totalCount = response.totalCount ?? 0
         if let repos = response.items {
           if state.searchText.isEmpty {
@@ -78,7 +79,6 @@ public struct RepositoryListFeature {
             state.repositories = repos
           }
         }
-        state.isLoading = false
         return .none
       case let .repositoryResponse(.failure(error)):
         state.isLoading = false

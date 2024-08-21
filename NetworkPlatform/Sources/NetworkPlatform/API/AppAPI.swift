@@ -76,8 +76,12 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
       fileName = "Users"
     case .userDetail:
       fileName = "UserDetail"
-    case .repositories:
-      fileName = "Repos"
+    case let .repositories(query):
+      if query.query.isEmpty {
+        fileName = "Repos_\(query.page)"
+      } else {
+        fileName = "Repos_Search"
+      }
     }
     return stubbedResponse(fileName)
   }

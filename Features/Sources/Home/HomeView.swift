@@ -11,9 +11,9 @@ import Domain
 import SwiftUI
 import UserDetail
 
-@MainActor
+@ViewAction(for: HomeFeature.self)
 public struct HomeView: View {
-  @Perception.Bindable var store: StoreOf<HomeFeature>
+  @Perception.Bindable public var store: StoreOf<HomeFeature>
 
   public init(store: StoreOf<HomeFeature>) {
     self.store = store
@@ -36,9 +36,7 @@ public struct HomeView: View {
         toast: .networkError(show: $store.showToast),
         show: $store.showToast
       )
-      .onAppear {
-        store.send(.onAppear)
-      }
+      .onAppear { send(.onAppear) }
     }
   }
 }

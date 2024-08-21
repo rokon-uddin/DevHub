@@ -36,7 +36,9 @@ let package = Package(
         .product(name: "CombineMoya", package: "Moya"),
       ],
       resources: [
-        .copy("Resources/StubbedResponse/Repos.json"),
+        .copy("Resources/StubbedResponse/Repos_1.json"),
+        .copy("Resources/StubbedResponse/Repos_2.json"),
+        .copy("Resources/StubbedResponse/Repos_Search.json"),
         .copy("Resources/StubbedResponse/Users.json"),
         .copy("Resources/StubbedResponse/UserDetail.json"),
       ]

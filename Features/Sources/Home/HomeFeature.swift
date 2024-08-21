@@ -24,16 +24,21 @@ public struct HomeFeature {
     var path = StackState<Path.State>()
     var usersList = UserListFeature.State()
     var showToast = false
-    
+
     public init() {}
   }
-  
-  public enum Action: BindableAction {
-    case onAppear
+
+  public enum Action: ViewAction {
+    case view(View)
     case path(StackActionOf<Path>)
-    case binding(BindingAction<State>)
     case usersList(UserListFeature.Action)
     case updateReachability(isOnline: Bool)
+  }
+
+  @CasePathable
+  public enum View: BindableAction, Sendable {
+    case onAppear
+    case binding(BindingAction<State>)
   }
 
   @Dependency(\.mainQueue) var mainQueue
@@ -41,13 +46,13 @@ public struct HomeFeature {
   public init() {}
 
   public var body: some ReducerOf<Self> {
-    BindingReducer()
+    BindingReducer(action: \.view)
     Scope(state: \.usersList, action: \.usersList) {
       UserListFeature()
     }
     Reduce { state, action in
       switch action {
-      case .onAppear:
+      case .view(.onAppear):
         return .run { send in
           for try await networkPath in await reachabilityClient.networkPathPublisher() {
             let isOnline = networkPath.reachability.isOnline
@@ -57,9 +62,7 @@ public struct HomeFeature {
       case let .updateReachability(isOnline):
         state.showToast = isOnline == false
         return .none
-      case .binding(\.showToast):
-        return .none
-      case .binding(_):
+      case .view(.binding):
         return .none
       case .usersList:
         return .none

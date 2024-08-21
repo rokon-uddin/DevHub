@@ -26,7 +26,7 @@ final class HomeFeatureTests: XCTestCase {
       }
       await store.send(.onAppear)
       await store.receive(\.updateReachability) {
-        $0.isOnline = false
+        $0.showToast = true
       }
     }
 }
