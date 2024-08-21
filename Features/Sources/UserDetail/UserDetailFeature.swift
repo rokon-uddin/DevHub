@@ -49,14 +49,19 @@ public struct UserDetailFeature {
     public var updatedAt: String { userDetail?.updatedAt?.timeAgo ?? "" }
   }
 
-  public enum Action {
+  public enum Action: ViewAction {
+    case view(View)
+    case repositoryList(RepositoryListFeature.Action)
+    case userDetailResponse(Result<UserDetail?, Error>)
+    case destination(PresentationAction<Destination.Action>)
+  }
+
+  @CasePathable
+  public enum View: Sendable {
     case onAppear
     case closeButtonTapped
     case openInSafariTapped(URL)
     case profileSummarySelected
-    case repositoryList(RepositoryListFeature.Action)
-    case userDetailResponse(Result<UserDetail?, Error>)
-    case destination(PresentationAction<Destination.Action>)
   }
 
   @Dependency(\.openURL) var openURL
@@ -69,23 +74,23 @@ public struct UserDetailFeature {
     }
     Reduce { state, action in
       switch action {
-      case .onAppear:
+      //MARK: View Action
+      case .view(.onAppear):
         return userDetail(state: &state)
-      case let .userDetailResponse(.success(response)):
-        state.userDetail = response
-        state.isLoading = false
+      case let .view(.openInSafariTapped(url)):
+        return .run { _ in await openURL(url) }
+      case .view(.closeButtonTapped):
+        state.destination = nil
         return .none
-      case let .userDetailResponse(.failure(error)):
-        state.isLoading = false
-        state.destination = .alert(.showError(error.localizedDescription))
-        return .none
-      case .profileSummarySelected:
+      case .view(.profileSummarySelected):
         let profileURL =
           "https://profile-summary-for-github.com/user/" + state.user.login
         if let url = URL(string: profileURL) {
           state.destination = .webView(.init(title: "Profile Summary", url: url))
         }
         return .none
+
+      //MARK: Destination Action
       case let .destination(.presented(.alert(alertAction))):
         switch alertAction {
         case .retry:
@@ -95,18 +100,19 @@ public struct UserDetailFeature {
         return .none
       case .destination:
         return .none
-      case let .openInSafariTapped(url):
-        return .run { send in
-          await openURL(url)
-        }
-      case .closeButtonTapped:
-        state.destination = nil
+        
+      //MARK: Internal Action
+      case let .userDetailResponse(.success(response)):
+        state.userDetail = response
+        state.isLoading = false
         return .none
-
+      case let .userDetailResponse(.failure(error)):
+        state.isLoading = false
+        state.destination = .alert(.showError(error.localizedDescription))
+        return .none
       }
     }
     .ifLet(\.$destination, action: \.destination)
-
   }
 }
 

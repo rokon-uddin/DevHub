@@ -10,8 +10,9 @@ import ComposableArchitecture
 import RepositoryList
 import SwiftUI
 
+@ViewAction(for: UserDetailFeature.self)
 public struct UserDetailView: View {
-  @Perception.Bindable var store: StoreOf<UserDetailFeature>
+  @Perception.Bindable public var store: StoreOf<UserDetailFeature>
 
   public init(store: StoreOf<UserDetailFeature>) {
     self.store = store
@@ -26,32 +27,25 @@ public struct UserDetailView: View {
         RepositoryListView(
           store: store.scope(state: \.repositoryList, action: \.repositoryList)
         )
-
         Spacer()
       }
       .frame(maxWidth: .infinity)
       .padding(4.0)
       .padding(.top, 76)
-      .background(Color.background)
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationTitle(store.login)
       .ignoresSafeArea()
+      .background(Color.background)
+      .navigationTitle(store.login)
+      .navigationBarTitleDisplayMode(.inline)
+      .onAppear { send(.onAppear) }
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-      .onAppear {
-        store.send(.onAppear)
-      }
       .sheet(
         item: $store.scope(
           state: \.destination?.webView, action: \.destination.webView)
       ) { webStore in
         WebViewNavigationStack(
           store: webStore, title: webStore.title,
-          confirmationAction: {
-            store.send(.openInSafariTapped(webStore.url))
-          },
-          cancellationAction: {
-            store.send(.closeButtonTapped)
-          })
+          confirmationAction: { send(.openInSafariTapped(webStore.url)) },
+          cancellationAction: { send(.closeButtonTapped) })
       }
     }
   }
@@ -70,8 +64,9 @@ public struct UserDetailView: View {
         Text(store.bio)
           .foregroundStyle(Color.text)
       }
+      
       CustomButton(title: "Profile Summary") {
-        store.send(.profileSummarySelected)
+        send(.profileSummarySelected)
       }
       .padding(8)
     }
