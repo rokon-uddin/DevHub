@@ -28,9 +28,7 @@ final class UserListSnapshotTests: XCTestCase {
 
     store.send(.view(.onAppear))
 
-    let view = NavigationStack {
-      UserListView(store: store)
-    }
+    let view = UserListView(store: store)
     let vc = UIHostingController(rootView: view)
 
     let expectation = self.expectation(description: "expectation")
