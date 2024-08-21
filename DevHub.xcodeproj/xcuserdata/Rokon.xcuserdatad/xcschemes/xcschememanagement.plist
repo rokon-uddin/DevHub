@@ -19,21 +19,21 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>15</integer>
 		</dict>
 		<key>ReactiveSwift (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>19</integer>
+			<integer>16</integer>
 		</dict>
 		<key>ReactiveSwift (Playground) 3.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>27</integer>
+			<integer>24</integer>
 		</dict>
 		<key>ReactiveSwift (Playground) 4.xcscheme</key>
 		<dict>
@@ -75,42 +75,42 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>17</integer>
+			<integer>14</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 1.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>19</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>16</integer>
+			<integer>20</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 3.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>24</integer>
+			<integer>25</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 4.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>25</integer>
+			<integer>26</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 5.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>26</integer>
+			<integer>27</integer>
 		</dict>
 		<key>ReactiveSwift-UIExamples (Playground) 6.xcscheme</key>
 		<dict>
@@ -138,7 +138,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>18</integer>
 		</dict>
 		<key>Rx (Playground) 1.xcscheme</key>
 		<dict>
@@ -201,7 +201,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>20</integer>
+			<integer>17</integer>
 		</dict>
 		<key>Staging.xcscheme</key>
 		<dict>

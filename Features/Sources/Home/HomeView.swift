@@ -33,8 +33,8 @@ public struct HomeView: View {
         }
       }
       .toast(
-        toast: .networkError(show: .constant(!store.isOnline)),
-        show: .constant(!store.isOnline)
+        toast: .networkError(show: $store.showToast),
+        show: $store.showToast
       )
       .onAppear {
         store.send(.onAppear)

@@ -29,6 +29,9 @@ let package = Package(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       from: "1.13.0"
     ),
+    .package(
+      url: "https://github.com/pointfreeco/swift-snapshot-testing.git",
+      from: "1.17.4"),
   ],
   targets: [
     .target(
@@ -79,6 +82,9 @@ let package = Package(
         .product(
           name: "ComposableArchitecture",
           package: "swift-composable-architecture"),
+        .product(
+          name: "SnapshotTesting",
+          package: "swift-snapshot-testing"),
       ]
     ),
   ]

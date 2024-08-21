@@ -29,23 +29,19 @@ public struct Toast: View {
         Image(systemName: model.image)
         Text(model.title)
       }.font(.headline)
-        .foregroundColor(.primary)
+        .foregroundColor(Color.accent)
         .padding([.top, .bottom], 20)
         .padding([.leading, .trailing], 40)
-        .background(Color(UIColor.secondarySystemBackground))
+        .background(Color.black.opacity(0.9))
         .clipShape(Capsule())
     }
     .frame(width: UIScreen.main.bounds.width / 1.25)
     .transition(AnyTransition.move(edge: .bottom).combined(with: .opacity))
     .onTapGesture {
-      withAnimation {
-        self.show = false
-      }
+      withAnimation { self.show = false }
     }.onAppear(perform: {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        withAnimation {
-          self.show = false
-        }
+        withAnimation { self.show = false }
       }
     })
   }
@@ -53,7 +49,7 @@ public struct Toast: View {
 
 extension Toast {
   public static func networkError(show: Binding<Bool>) ->  Self {
-    return Toast(Toast.Model(title: "No Internet", image: "network.slash"), show: show)
+    return Toast(Toast.Model(title: "No network available", image: "wifi.slash"), show: show)
   }
 }
 

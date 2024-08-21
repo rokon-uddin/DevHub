@@ -23,22 +23,25 @@ public struct HomeFeature {
   public struct State: Equatable {
     var path = StackState<Path.State>()
     var usersList = UserListFeature.State()
-    var isOnline = true
-
+    var showToast = false
+    
     public init() {}
   }
-
-  public enum Action {
+  
+  public enum Action: BindableAction {
     case onAppear
     case path(StackActionOf<Path>)
+    case binding(BindingAction<State>)
     case usersList(UserListFeature.Action)
     case updateReachability(isOnline: Bool)
   }
 
+  @Dependency(\.mainQueue) var mainQueue
   @Dependency(\.reachabilityClient) var reachabilityClient
   public init() {}
 
   public var body: some ReducerOf<Self> {
+    BindingReducer()
     Scope(state: \.usersList, action: \.usersList) {
       UserListFeature()
     }
@@ -48,11 +51,15 @@ public struct HomeFeature {
         return .run { send in
           for try await networkPath in await reachabilityClient.networkPathPublisher() {
             let isOnline = networkPath.reachability.isOnline
-            await send(.updateReachability(isOnline: isOnline))
+            await send(.updateReachability(isOnline: isOnline), animation: .linear(duration: 0.8))
           }
         }
       case let .updateReachability(isOnline):
-        state.isOnline = isOnline
+        state.showToast = isOnline == false
+        return .none
+      case .binding(\.showToast):
+        return .none
+      case .binding(_):
         return .none
       case .usersList:
         return .none
