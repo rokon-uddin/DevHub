@@ -65,6 +65,7 @@ The app is structured using a Clean Architecture to promote modularity, maintain
 - [x] Open repo in Browser
 - [x] View developer profile summary
 - [x] Support Dark Appearance
+- [x] Support Accessibility
 
 ## Technologies
 - [x] The Composable Architecture ([TCA](https://github.com/pointfreeco/swift-composable-architecture))
@@ -73,6 +74,7 @@ The app is structured using a Clean Architecture to promote modularity, maintain
 - [x] Dependency injection ([swift-dependencies](https://github.com/pointfreeco/swift-dependencies))
 - [x] Add UITests
 - [x] Add SnapshotTests
+- [x] Add Accessibility Identifier ([accessibilityidentifier(_:)](https://developer.apple.com/documentation/swiftui/view/accessibilityidentifier(_:)))
 
 ## Build Configurations
 DevHub uses `.xcconfig` and `BuildConfiguration.plist` for managing environment-specific settings.

@@ -37,8 +37,8 @@ public struct RepositoryListView: View {
                   RepositoryCell(model: repo.toViewModel) {
                     send(.repositorySelected(repo))
                   }
-//                  .accessibilityElement(children: .combine)
-//                  .accessibilityHint("Tap to view details for \(repo.name)")
+                  .accessibilityElement(children: .combine)
+                  .accessibilityHint("Tap to view details for \(repo.name)")
                   .onAppear {
                     if repo == store.repositories.last {
                       send(.nextPage)
@@ -57,8 +57,6 @@ public struct RepositoryListView: View {
                 .listRowBackground(Color.background)
                 .listRowSeparator(.hidden)
             }
-//            .accessibilityLabel("Repository list")
-//            .accessibilityHint("List of repositories with details")
             .background(Color.background)
             .scrollIndicators(.hidden)
             .listStyle(.plain)
@@ -71,6 +69,7 @@ public struct RepositoryListView: View {
           }
         }
       }
+      .accessibilityIdentifierBranch("RepositoryList")
       .frame(maxWidth: .infinity)
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {

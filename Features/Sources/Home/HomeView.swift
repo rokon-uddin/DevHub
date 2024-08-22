@@ -40,5 +40,6 @@ public struct HomeView: View {
       )
       .onAppear { send(.onAppear) }
     }
+    .accessibilityIdentifierBranch("Home")
   }
 }

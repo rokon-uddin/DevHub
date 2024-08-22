@@ -32,6 +32,7 @@ public struct UserDetailView: View {
           HeaderView()
             .frame(maxWidth: .infinity)
             .frame(height: 248)
+            .accessibilityIdentifierLeaf("UserHeader")
           RepositoryListView(
             store: store.scope(state: \.repositoryList, action: \.repositoryList)
           )
@@ -58,6 +59,7 @@ public struct UserDetailView: View {
         }
       }
     }
+    .accessibilityIdentifierLeaf("UserDetail")
   }
 
   func HeaderView() -> some View {
@@ -75,13 +77,16 @@ public struct UserDetailView: View {
         Avatar(store.url, size: 120)
           .accessibilityLabel("User avatar")
           .accessibilityValue("Profile picture of \(store.name)")
+          .accessibilityIdentifierLeaf("avatar")
         Text(store.bio)
           .foregroundStyle(Color.text)
+          .accessibilityIdentifierLeaf("UserBio")
       }
 
       CustomButton(title: "Profile Summary") {
         send(.profileSummarySelected)
       }
+      .accessibilityIdentifierLeaf("CustomButton")
       .padding(8)
     }
     .accessibilityElement(children: .combine)

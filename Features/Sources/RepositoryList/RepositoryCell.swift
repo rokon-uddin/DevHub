@@ -36,6 +36,7 @@ public struct RepositoryCell: View {
         HStack(alignment: .center) {
           Avatar(model.avatar, size: 48)
             .accessibilityHidden(true)
+            .accessibilityIdentifierLeaf("Avatar")
           VStack(alignment: .leading) {
             Text(model.title)
               .font(.system(size: 14))
@@ -43,12 +44,14 @@ public struct RepositoryCell: View {
               .foregroundStyle(Color.text)
               .accessibilityLabel("Repository name")
               .accessibilityValue(model.title)
+              .accessibilityIdentifierLeaf("RepositoryName")
 
             if let detail = model.detail {
               Text(detail)
                 .font(.system(size: 12))
                 .lineLimit(1)
                 .foregroundStyle(.gray)
+                .accessibilityIdentifierLeaf("RepositoryDetail")
             }
 
             HStack(spacing: 4) {
@@ -57,13 +60,16 @@ public struct RepositoryCell: View {
                 .accessibilityLabel("Number of stars")
                 .accessibilityValue("\(model.starCount)")
                 .padding(.trailing, 16)
+                .accessibilityIdentifierLeaf("StarCount")
 
               Icon.eyeFill
               DetailTextView("\(model.watchersCount)")
                 .padding(.trailing, 16)
+                .accessibilityIdentifierLeaf("WatcherCount")
 
               if let language = model.language {
                 DetailTextView(language)
+                  .accessibilityIdentifierLeaf("Language")
               }
             }
           }

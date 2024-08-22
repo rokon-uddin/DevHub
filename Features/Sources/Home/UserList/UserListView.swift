@@ -35,6 +35,7 @@ public struct UserListView: View {
             ForEach(store.users) { user in
               NavigationLink(state: HomeFeature.Path.State.detail(UserDetailFeature.State(user: user))) {
                 UserCard(user)
+                  .accessibilityIdentifierLeaf("UserCard")
                   .onAppear {
                     if user == store.users.last {
                       send(.nextUsers)
@@ -70,10 +71,12 @@ public struct UserListView: View {
     return HStack(alignment: .center, spacing: 16) {
       Avatar(user.avatarURL)
         .accessibilityHidden(true)
+        .accessibilityIdentifierLeaf("Avatar")
       Text(user.login)
         .font(.title2)
         .accessibilityLabel("Username")
         .accessibilityValue(user.login)
+        .accessibilityIdentifierLeaf("Username")
       Spacer()
     }
   }
