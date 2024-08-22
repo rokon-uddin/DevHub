@@ -45,7 +45,7 @@ public struct UserListFeature {
 
   public enum Action: ViewAction {
     case view(View)
-    case usersResponse(Result<RemoteResponse<Users>?, Error>)
+    case usersResponse(Result<UsersResponse, Error>)
     case destination(PresentationAction<Destination.Action>)
   }
 
@@ -86,13 +86,10 @@ public struct UserListFeature {
         return .none
 
       //MARK: Internal Action
-      case let .usersResponse(.success(users)):
+      case let .usersResponse(.success(userList)):
         state.isLoading = false
-        if let users = users?.body {
-          state.users.append(contentsOf: users)
-        }
-        let next = users?.nextPage ?? ""
-        state.nextPage = Int.parse(from: next) ?? 0
+        state.users.append(contentsOf: userList.users)
+        state.nextPage = userList.nextPage
         return .none
       case let .usersResponse(.failure(error)):
         state.isLoading = false

@@ -15,7 +15,7 @@ struct UserListFailingUseCase: UseCase {
     self.error = error
   }
 
-  public func callAsFunction(input: Int) async throws -> RemoteResponse<Users> {
+  public func callAsFunction(input: Int) async throws -> UsersResponse {
     throw error
   }
 }

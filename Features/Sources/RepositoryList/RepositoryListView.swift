@@ -39,6 +39,7 @@ public struct RepositoryListView: View {
                   }
                   .accessibilityElement(children: .combine)
                   .accessibilityHint("Tap to view details for \(repo.name)")
+                  .accessibilityIdentifierBranch("RepositoryCell")
                   .onAppear {
                     if repo == store.repositories.last {
                       send(.nextPage)
@@ -69,7 +70,6 @@ public struct RepositoryListView: View {
           }
         }
       }
-      .accessibilityIdentifierBranch("RepositoryList")
       .frame(maxWidth: .infinity)
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
       .onAppear {

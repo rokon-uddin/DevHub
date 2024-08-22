@@ -15,10 +15,10 @@ public struct RemoteUsersRepository: Domain.RemoteUsersRepository {
     self.network = network
   }
 
-  public func read(input: Int) async throws -> RemoteResponse<Users> {
+  public func read(input: Int) async throws -> UsersResponse {
     try await network.requestResponseAndHeader(
       .users(input),
-      type: Users.self)
+      type: Users.self).asUserListResponse
   }
 
   public static var live = RemoteUsersRepository(

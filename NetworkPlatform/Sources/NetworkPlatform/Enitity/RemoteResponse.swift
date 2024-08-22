@@ -5,13 +5,14 @@
 //  Created by Mohammed Rokon Uddin on 8/18/24.
 //
 
+import Domain
 import Foundation
 
-public struct RemoteResponse<T: Decodable> {
-  public var body: T
-  public var header: [AnyHashable: Any]
+struct RemoteResponse<T: Decodable> {
+  var body: T
+  var header: [AnyHashable: Any]
 
-  public init(data: Data, response: HTTPURLResponse?) throws {
+  init(data: Data, response: HTTPURLResponse?) throws {
     do {
       let body = try JSONDecoder().decode(T.self, from: data)
       self.init(body: body, response: response)
@@ -20,14 +21,14 @@ public struct RemoteResponse<T: Decodable> {
     }
   }
 
-  public init(body: T, response: HTTPURLResponse?) {
+  init(body: T, response: HTTPURLResponse?) {
     self.body = body
     header = response?.allHeaderFields ?? [:]
   }
 }
 
 extension RemoteResponse {
-  public var nextPage: String? {
+  var nextPage: String? {
     guard let link = header["Link"] as? String else {
       return nil
     }
@@ -46,5 +47,25 @@ extension RemoteResponse {
       return nil
     }
     return String(link[range])
+  }
+}
+
+extension RemoteResponse where T == Users {
+  var asUserListResponse: UsersResponse {
+    var page = 0
+    if let nextPage = nextPage,
+      let number = Int.parse(from: nextPage)
+    {
+      page = number
+    }
+    return UsersResponse(users: self.body, nextPage: page)
+  }
+}
+
+extension Int {
+  static func parse(from string: String) -> Int? {
+    Int(
+      string.components(separatedBy: CharacterSet.decimalDigits.inverted)
+        .joined())
   }
 }

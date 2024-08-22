@@ -31,6 +31,7 @@ public struct HomeView: View {
           case let .detail(store):
             UserDetailView(store: store)
               .toolbarRole(.editor)
+              .accessibilityIdentifierBranch("UserDetail")
           }
         }
       }

@@ -36,6 +36,7 @@ public struct UserDetailView: View {
           RepositoryListView(
             store: store.scope(state: \.repositoryList, action: \.repositoryList)
           )
+          .accessibilityIdentifierBranch("RepositoryList")
           Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -59,7 +60,6 @@ public struct UserDetailView: View {
         }
       }
     }
-    .accessibilityIdentifierLeaf("UserDetail")
   }
 
   func HeaderView() -> some View {
