@@ -55,13 +55,10 @@ public struct RepositoryListView: View {
                 .listRowBackground(Color.background)
                 .listRowSeparator(.hidden)
             }
-
             .background(Color.background)
             .scrollIndicators(.hidden)
             .listStyle(.plain)
-            .refreshable {
-              send(.refresh)
-            }
+            .refreshable { send(.refresh) }
           }
 
           if store.bottomLoadingIndicator {

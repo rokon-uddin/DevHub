@@ -8,7 +8,6 @@
 import SwiftUI
 
 public struct Toast: View {
-
   public struct Model {
     var title: String
     var image: String
@@ -48,7 +47,7 @@ public struct Toast: View {
 }
 
 extension Toast {
-  public static func networkError(show: Binding<Bool>) ->  Self {
+  public static func networkError(show: Binding<Bool>) -> Self {
     return Toast(Toast.Model(title: "No network available", image: "wifi.slash"), show: show)
   }
 }
@@ -56,7 +55,7 @@ extension Toast {
 public struct ToastModifier: ViewModifier {
   private let toast: Toast
   @Binding private var show: Bool
-  
+
   public init(toast: Toast, show: Binding<Bool>) {
     self.toast = toast
     self._show = show

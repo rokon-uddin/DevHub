@@ -8,8 +8,10 @@
 import Domain
 import Foundation
 
-let mockSearchResponse = try! JSONDecoder().decode(SearchResponse<GitHubRepository>.self, from: searchResponse.data(using: .utf8)!)
-let mockSearchResponseNext = try! JSONDecoder().decode(SearchResponse<GitHubRepository>.self, from: searchResponseNext.data(using: .utf8)!)
+let mockSearchResponse = try! JSONDecoder().decode(
+  SearchResponse<GitHubRepository>.self, from: searchResponse.data(using: .utf8)!)
+let mockSearchResponseNext = try! JSONDecoder().decode(
+  SearchResponse<GitHubRepository>.self, from: searchResponseNext.data(using: .utf8)!)
 
 private let searchResponse = #"""
     {

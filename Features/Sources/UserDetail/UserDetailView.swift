@@ -26,7 +26,7 @@ public struct UserDetailView: View {
           ProgressView()
         }
         .ignoresSafeArea()
-          .onAppear { send(.onAppear) }
+        .onAppear { send(.onAppear) }
       } else {
         VStack(spacing: 0) {
           HeaderView()
@@ -51,9 +51,9 @@ public struct UserDetailView: View {
         ) { webStore in
           WithPerceptionTracking {
             WebViewNavigationStack(
-                        store: webStore, title: webStore.title,
-                        confirmationAction: { send(.openInSafariTapped(webStore.url)) },
-                        cancellationAction: { send(.closeButtonTapped) })
+              store: webStore, title: webStore.title,
+              confirmationAction: { send(.openInSafariTapped(webStore.url)) },
+              cancellationAction: { send(.closeButtonTapped) })
           }
         }
       }

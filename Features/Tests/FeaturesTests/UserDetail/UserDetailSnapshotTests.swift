@@ -60,7 +60,7 @@ final class UserDetailSnapshotTests: XCTestCase {
     let view = UserDetailView(store: store)
     let vc = UIHostingController(rootView: view)
     store.send(.view(.onAppear))
-    
+
     let expectation = self.expectation(description: "expectation")
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       expectation.fulfill()

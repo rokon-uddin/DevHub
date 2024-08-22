@@ -12,7 +12,7 @@ public struct RepositoryQuery {
   public let login: String
   public let searchText: String
   public let itemPerPage: Int
-  
+
   public init(page: Int, login: String, searchText: String, itemPerPage: Int = 30) {
     self.page = page
     self.login = login

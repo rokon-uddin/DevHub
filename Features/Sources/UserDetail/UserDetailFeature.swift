@@ -101,7 +101,7 @@ public struct UserDetailFeature {
         return .none
       case .destination:
         return .none
-        
+
       //MARK: Internal Action
       case let .userDetailResponse(.success(response)):
         state.userDetail = response

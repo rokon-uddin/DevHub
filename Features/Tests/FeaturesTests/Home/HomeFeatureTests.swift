@@ -28,7 +28,7 @@ final class HomeFeatureTests: XCTestCase {
     await store.receive(\.updateReachability) {
       $0.showToast = true
     }
-    
+
     await onAppearTask.finish()
   }
 }

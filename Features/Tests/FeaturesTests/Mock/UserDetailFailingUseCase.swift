@@ -14,7 +14,7 @@ struct UserDetailFailingUseCase: UseCase {
   init(error: NetworkRequestError = .serverError) {
     self.error = error
   }
-  
+
   func callAsFunction(input: String) async throws -> UserDetail {
     throw error
   }
