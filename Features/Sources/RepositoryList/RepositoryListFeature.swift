@@ -149,8 +149,7 @@ extension RepositoryListFeature {
   private func githubRepositories(state: inout State) -> Effect<Action> {
     state.isLoading = true
     var query: RepositoryQuery {
-      let page = state.searchText.isEmpty ? state.page : 1
-      return RepositoryQuery(page: page, login: state.user.login, searchText: state.searchText)
+      return RepositoryQuery(page: state.page, login: state.user.login, searchText: state.searchText)
     }
 
     return .run { [query] send in

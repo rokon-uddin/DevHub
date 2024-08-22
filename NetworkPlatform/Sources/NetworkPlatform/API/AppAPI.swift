@@ -55,10 +55,8 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
     switch self {
     case .users(let page):
       params["since"] = page
-    case .repositories(let param):
-      params["q"] = "\(param.searchText) user:\(param.login)"
-      params["page"] = param.page
-      params["per_page"] = param.itemPerPage
+    case let .repositories(param):
+      return param.build()
     default:
       break
     }
@@ -89,13 +87,8 @@ extension AppAPI: TargetType, ProductAPIType, Stubble {
   var task: Task {
     switch self {
     case let .repositories(param):
-      let parameters: [String: Any] = [
-        "page": param.page,
-        "per_page": param.itemPerPage,
-        "q": "\(param.searchText) user:\(param.login)",
-      ]
       return .requestParameters(
-        parameters: parameters, encoding: URLEncoding.queryString)
+        parameters: param.build(), encoding: URLEncoding.queryString)
     default:
       if let parameters = parameters {
         return .requestParameters(
