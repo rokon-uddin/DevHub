@@ -23,7 +23,7 @@ final class RepositoryListTests: XCTestCase {
     } withDependencies: {
       $0.repositoriesClient.githubRepositories = response
     }
-    
+
     let repos = Mock.repositories
     await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {

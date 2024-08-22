@@ -25,7 +25,7 @@ class OnlineProvider<Target> where Target: Moya.TargetType {
       Target
     >.neverStub,
     session: Session = MoyaProvider<Target>.defaultAlamofireSession(),
-    plugins: [PluginType] = [VerbosePlugin(verbose: true)],
+    plugins: [PluginType] = [VerbosePlugin(verbose: false)],
     trackInflights: Bool = false,
     online: AnyPublisher<Bool, Never>
   ) {

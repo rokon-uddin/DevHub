@@ -27,7 +27,9 @@ public struct AccessibilityIdentifierBranchModifier: ViewModifier {
 }
 
 extension View {
-  public func accessibilityIdentifierBranch(_ branch: String) -> ModifiedContent<Self, AccessibilityIdentifierBranchModifier> {
+  public func accessibilityIdentifierBranch(_ branch: String) -> ModifiedContent<
+    Self, AccessibilityIdentifierBranchModifier
+  > {
     modifier(AccessibilityIdentifierBranchModifier(branch: branch))
   }
 }

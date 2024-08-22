@@ -22,7 +22,7 @@ public struct RepositoryQuery {
 
   public func build() -> [String: Any] {
     var params: [String: Any] = [:]
-    let page = searchText.isEmpty ? page : 1 // Show the first 30 results of users search
+    let page = searchText.isEmpty ? page : 1  // Show the first 30 results of users search
     params["q"] = "\(searchText) user:\(login)"
     params["page"] = page
     params["per_page"] = itemPerPage

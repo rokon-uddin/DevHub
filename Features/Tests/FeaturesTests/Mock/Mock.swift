@@ -10,7 +10,7 @@ import Foundation
 
 struct Mock {
   private init() {}
-  
+
   private static func load<T: Decodable>(_ type: T.Type, name: String) -> T {
     guard let url = Bundle.module.url(forResource: name, withExtension: "json") else {
       print("JSON file not found")

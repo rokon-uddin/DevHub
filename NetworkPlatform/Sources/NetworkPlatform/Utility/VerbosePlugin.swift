@@ -15,17 +15,20 @@ struct VerbosePlugin: PluginType {
 
   func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
     #if DEBUG
-      if let body = request.httpBody {
-        if verbose {
-          Logger.log(logLevel: .info, body)
+      if verbose {
+        if let body = request.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+          Logger.log(logLevel: .debug, bodyString)
+        }
+
+        if let headers = request.allHTTPHeaderFields, !headers.isEmpty {
+          let headersString = headers.reduce("HTTP_HEADER: ") { partialResult, header in
+            partialResult + "\(header.key): \(header.value)"
+          }
+          Logger.log(logLevel: .debug, headersString)
         }
       }
 
-      if let headerFields = request.allHTTPHeaderFields {
-        if verbose {
-          Logger.log(logLevel: .info, headerFields)
-        }
-      }
+      Logger.log(logLevel: .custom(.request), request)
     #endif
     return request
   }
@@ -33,17 +36,21 @@ struct VerbosePlugin: PluginType {
   func didReceive(_ result: Result<Response, MoyaError>, target _: TargetType) {
     #if DEBUG
       switch result {
-      case let .success(body):
+      case let .success(moyaResponse):
         if verbose {
-          if let json = try? JSONSerialization.jsonObject(
-            with: body.data, options: .mutableContainers)
-          {
-            Logger.log(logLevel: .info, json)
-          } else {
-            let response = String(data: body.data, encoding: .utf8)!
-            Logger.log(logLevel: .info, response)
+          if let body = moyaResponse.request?.httpBody, let bodyString = String(data: body, encoding: .utf8) {
+            Logger.log(logLevel: .debug, bodyString)
+          }
+
+          if let headers = moyaResponse.response?.headers, !headers.isEmpty {
+            let headersString = headers.reduce("HTTP_HEADER: ") { partialResult, header in
+              partialResult + "\(header.name): \(header.value)"
+            }
+            Logger.log(logLevel: .debug, headersString)
           }
         }
+        let response: (HTTPURLResponse?, Data?, Error?) = (moyaResponse.response, moyaResponse.data, nil)
+        Logger.log(logLevel: .custom(.response), response)
       case .failure(let error):
         Logger.log(logLevel: .error, error.asAppError)
         break
