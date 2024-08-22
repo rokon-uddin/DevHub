@@ -83,10 +83,10 @@ public struct UserDetailView: View {
           .accessibilityIdentifierLeaf("UserBio")
       }
 
-      CustomButton(title: "Profile Summary") {
+      PrimaryButton(title: "Profile Summary") {
         send(.profileSummarySelected)
       }
-      .accessibilityIdentifierLeaf("CustomButton")
+      .accessibilityIdentifierLeaf("PrimaryButton")
       .padding(8)
     }
     .accessibilityElement(children: .combine)

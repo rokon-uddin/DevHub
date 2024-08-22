@@ -1,5 +1,5 @@
 //
-//  CustomButton.swift
+//  PrimaryButton.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/18/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct CustomButton: View {
+public struct PrimaryButton: View {
   private var title: String
   var action: () -> Void
 
