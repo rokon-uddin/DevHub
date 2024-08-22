@@ -14,7 +14,7 @@ final class NetworkPlatformTests: XCTestCase {
 
   func testReadUserDetailSuccess() async throws {
     let repository = RemoteUserDetailRepository.stubbed
-    let userDetail = try await repository.read(input: "rokon-uddin")
+    let userDetail = try await repository.read(input: "wycats")
     XCTAssertNotNil(userDetail)
   }
 

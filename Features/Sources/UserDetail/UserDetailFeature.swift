@@ -85,7 +85,7 @@ public struct UserDetailFeature {
         return .none
       case .view(.profileSummarySelected):
         let profileURL =
-          "https://profile-summary-for-github.com/user/" + "rokon-uddin"//state.user.login
+          "https://profile-summary-for-github.com/user/" + state.user.login
         if let url = URL(string: profileURL) {
           state.destination = .webView(.init(title: "Profile Summary", url: url))
         }
@@ -124,7 +124,7 @@ extension UserDetailFeature {
       await send(
         .userDetailResponse(
           Result {
-            try await userDetailClient.userDetail(input: "rokon-uddin")//state.user.login)
+            try await userDetailClient.userDetail(input: state.user.login)
           }))
     }
   }

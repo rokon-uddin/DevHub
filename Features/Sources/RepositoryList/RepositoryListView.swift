@@ -33,12 +33,14 @@ public struct RepositoryListView: View {
           } else {
             List {
               ForEach(store.repositories) { repo in
-                RepositoryCell(model: repo.toViewModel) {
-                  send(.repositorySelected(repo))
-                }
-                .onAppear {
-                  if repo == store.repositories.last {
-                    send(.nextPage)
+                WithPerceptionTracking {
+                  RepositoryCell(model: repo.toViewModel) {
+                    send(.repositorySelected(repo))
+                  }
+                  .onAppear {
+                    if repo == store.repositories.last {
+                      send(.nextPage)
+                    }
                   }
                 }
               }
@@ -77,14 +79,16 @@ public struct RepositoryListView: View {
         item: $store.scope(
           state: \.destination?.webView, action: \.destination.webView)
       ) { webStore in
-        WebViewNavigationStack(
-          store: webStore, title: webStore.url.absoluteString,
-          confirmationAction: {
-            send(.openInSafariTapped(webStore.url))
-          },
-          cancellationAction: {
-            send(.closeButtonTapped)
-          })
+        WithPerceptionTracking {
+          WebViewNavigationStack(
+            store: webStore, title: webStore.url.absoluteString,
+            confirmationAction: {
+              send(.openInSafariTapped(webStore.url))
+            },
+            cancellationAction: {
+              send(.closeButtonTapped)
+            })
+        }
       }
     }
   }

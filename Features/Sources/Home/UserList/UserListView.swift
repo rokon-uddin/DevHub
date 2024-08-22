@@ -53,6 +53,7 @@ public struct UserListView: View {
           .listStyle(.plain)
           .scrollIndicators(.hidden)
           .refreshable { send(.refresh) }
+          .navigationTitle("Developers")
         }
 
         if store.bottomLoadingIndicator {
@@ -60,7 +61,6 @@ public struct UserListView: View {
         }
       }
       .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-      .navigationTitle("Developers")
     }
     .onAppear { send(.onAppear) }
   }

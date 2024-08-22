@@ -49,10 +49,12 @@ public struct UserDetailView: View {
           item: $store.scope(
             state: \.destination?.webView, action: \.destination.webView)
         ) { webStore in
-          WebViewNavigationStack(
-            store: webStore, title: webStore.title,
-            confirmationAction: { send(.openInSafariTapped(webStore.url)) },
-            cancellationAction: { send(.closeButtonTapped) })
+          WithPerceptionTracking {
+            WebViewNavigationStack(
+                        store: webStore, title: webStore.title,
+                        confirmationAction: { send(.openInSafariTapped(webStore.url)) },
+                        cancellationAction: { send(.closeButtonTapped) })
+          }
         }
       }
     }

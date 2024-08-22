@@ -26,10 +26,12 @@ public struct HomeView: View {
           store: store.scope(state: \.usersList, action: \.usersList)
         )
       } destination: { store in
-        switch store.case {
-        case let .detail(store):
-          UserDetailView(store: store)
-            .toolbarRole(.editor)
+        WithPerceptionTracking {
+          switch store.case {
+          case let .detail(store):
+            UserDetailView(store: store)
+              .toolbarRole(.editor)
+          }
         }
       }
       .toast(

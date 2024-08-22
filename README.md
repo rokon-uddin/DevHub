@@ -1,3 +1,7 @@
+#DevHub
+[![IDE](https://img.shields.io/badge/Xcode-15.4-blue.svg)](https://developer.apple.com/xcode/)
+[![Language](https://img.shields.io/badge/swift-5.9-orange.svg)](https://swift.org)
+[![Platform](https://img.shields.io/badge/iOS-16-green.svg)](https://developer.apple.com/ios/)
 <p align="center">
   <img src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/logo.jpeg" alt="DevHub Logo" height="80" >
 </p>
