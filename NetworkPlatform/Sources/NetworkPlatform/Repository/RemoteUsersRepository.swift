@@ -16,7 +16,7 @@ public struct RemoteUsersRepository: Domain.RemoteUsersRepository {
   }
 
   public func read(input: Int) async throws -> RemoteResponse<Users> {
-    try await network.requestResponse(
+    try await network.requestResponseAndHeader(
       .users(input),
       type: Users.self)
   }

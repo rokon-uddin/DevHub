@@ -54,7 +54,7 @@ struct AppNetworking: NetworkingType {
       .async()
   }
 
-  func requestResponse<T: Codable>(
+  func requestResponseAndHeader<T: Codable>(
     _ target: AppAPI,
     type _: T.Type
   ) async throws -> RemoteResponse<T> {

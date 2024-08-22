@@ -23,12 +23,13 @@ final class RepositoryListTests: XCTestCase {
     } withDependencies: {
       $0.repositoriesClient.githubRepositories = response
     }
-
+    
+    let repos = Mock.repositories
     await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
-      $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories = mockSearchResponse.items
+      $0.totalCount = repos.totalCount ?? 0
+      $0.repositories = repos.items ?? []
     }
   }
 
@@ -42,11 +43,12 @@ final class RepositoryListTests: XCTestCase {
       $0.repositoriesClient.githubRepositories = response
     }
 
+    let repos = Mock.repositories
     await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
-      $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories = mockSearchResponse.items
+      $0.totalCount = repos.totalCount ?? 0
+      $0.repositories = repos.items ?? []
     }
 
     await store.send(\.view.nextPage) {
@@ -54,10 +56,11 @@ final class RepositoryListTests: XCTestCase {
       $0.isLoading = true
     }
 
+    let reposNext = Mock.nextRepositories
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
-      $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories.append(contentsOf: mockSearchResponseNext.items)
+      $0.totalCount = reposNext.totalCount ?? 0
+      $0.repositories.append(contentsOf: reposNext.items ?? [])
     }
   }
 
@@ -91,11 +94,12 @@ final class RepositoryListTests: XCTestCase {
       $0.repositoriesClient.githubRepositories = response
     }
 
+    let repos = Mock.repositories
     await store.send(\.view.onAppear)
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
-      $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories = mockSearchResponse.items
+      $0.totalCount = repos.totalCount ?? 0
+      $0.repositories = repos.items ?? []
     }
 
     await store.send(\.view.binding.searchText, "javascript-decorators") {
@@ -103,10 +107,11 @@ final class RepositoryListTests: XCTestCase {
       $0.isLoading = true
     }
 
+    let searchRepos = Mock.searchRepositories
     await store.receive(\.repositoryResponse) {
       $0.isLoading = false
-      $0.totalCount = mockSearchResponse.totalCount ?? 0
-      $0.repositories = mockSearchResponse.items
+      $0.totalCount = searchRepos.totalCount ?? 0
+      $0.repositories = searchRepos.items ?? []
     }
   }
 }

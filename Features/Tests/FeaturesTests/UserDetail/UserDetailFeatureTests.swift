@@ -26,7 +26,7 @@ final class UserDetailFeatureTests: XCTestCase {
     await store.send(\.view.onAppear)
     await store.receive(\.userDetailResponse) {
       $0.isLoading = false
-      $0.userDetail = .mock
+      $0.userDetail = Mock.userDetail
     }
   }
 

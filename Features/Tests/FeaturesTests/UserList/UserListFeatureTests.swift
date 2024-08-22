@@ -26,7 +26,7 @@ final class UserListFeatureTests: XCTestCase {
     await store.send(\.view.onAppear)
     await store.receive(\.usersResponse) {
       $0.isLoading = false
-      $0.users = mockUsers
+      $0.users = Mock.users
     }
   }
 
@@ -42,7 +42,7 @@ final class UserListFeatureTests: XCTestCase {
     await store.send(\.view.onAppear)
     await store.receive(\.usersResponse.success) {
       $0.isLoading = false
-      $0.users.append(contentsOf: mockUsers)
+      $0.users.append(contentsOf: Mock.users)
     }
 
     await store.send(\.view.nextUsers) {
@@ -51,7 +51,7 @@ final class UserListFeatureTests: XCTestCase {
 
     await store.receive(\.usersResponse.success) {
       $0.isLoading = false
-      $0.users.append(contentsOf: mockUsers)
+      $0.users.append(contentsOf: Mock.users)
     }
   }
 
@@ -67,7 +67,7 @@ final class UserListFeatureTests: XCTestCase {
     await store.send(\.view.onAppear)
     await store.receive(\.usersResponse.success) {
       $0.isLoading = false
-      $0.users.append(contentsOf: mockUsers)
+      $0.users.append(contentsOf: Mock.users)
     }
 
     await store.send(\.view.refresh) {
@@ -78,7 +78,7 @@ final class UserListFeatureTests: XCTestCase {
 
     await store.receive(\.usersResponse.success) {
       $0.isLoading = false
-      $0.users.append(contentsOf: mockUsers)
+      $0.users.append(contentsOf: Mock.users)
     }
   }
 

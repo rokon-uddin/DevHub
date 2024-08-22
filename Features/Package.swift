@@ -85,6 +85,14 @@ let package = Package(
         .product(
           name: "SnapshotTesting",
           package: "swift-snapshot-testing"),
+      ],
+      resources: [
+        .copy("Resources/Repos_1.json"),
+        .copy("Resources/Repos_2.json"),
+        .copy("Resources/Repos_Search.json"),
+        .copy("Resources/Users_0.json"),
+        .copy("Resources/Users_5.json"),
+        .copy("Resources/UserDetail.json"),
       ]
     ),
   ]
