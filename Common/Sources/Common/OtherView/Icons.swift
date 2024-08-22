@@ -25,6 +25,7 @@ public struct Icon: View {
       .resizable()
       .tint(color)
       .frame(width: size.width, height: size.height)
+      .accessibilityLabel(name)
   }
 }
 

@@ -47,6 +47,7 @@ private struct WebViewRepresentable: UIViewRepresentable {
 
   func makeUIView(context: Context) -> WKWebView {
     let wkwebView = WKWebView()
+    wkwebView.accessibilityTraits = .allowsDirectInteraction
     wkwebView.navigationDelegate = context.coordinator
     let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
     wkwebView.load(request)

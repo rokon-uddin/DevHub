@@ -49,6 +49,8 @@ public struct UserListView: View {
             )
             .listRowSeparator(.hidden)
           }
+          .accessibilityLabel("Github User list")
+          .accessibilityHint("Select row to see detail")
           .background(Color.background)
           .listStyle(.plain)
           .scrollIndicators(.hidden)
@@ -67,8 +69,11 @@ public struct UserListView: View {
   private func UserCard(_ user: User) -> some View {
     return HStack(alignment: .center, spacing: 16) {
       Avatar(user.avatarURL)
+        .accessibilityHidden(true)
       Text(user.login)
         .font(.title2)
+        .accessibilityLabel("Username")
+        .accessibilityValue(user.login)
       Spacer()
     }
   }

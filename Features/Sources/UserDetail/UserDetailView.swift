@@ -66,11 +66,15 @@ public struct UserDetailView: View {
         .padding(.top, 4.0)
         .font(.title3)
         .foregroundStyle(.gray)
+        .accessibilityLabel("User name")
+        .accessibilityValue(store.name)
       FollowersAndFollowingView()
         .frame(maxWidth: .infinity)
       Spacer()
       HStack(spacing: 8) {
         Avatar(store.url, size: 120)
+          .accessibilityLabel("User avatar")
+          .accessibilityValue("Profile picture of \(store.name)")
         Text(store.bio)
           .foregroundStyle(Color.text)
       }
@@ -80,6 +84,9 @@ public struct UserDetailView: View {
       }
       .padding(8)
     }
+    .accessibilityElement(children: .combine)
+    .accessibilityLabel("User detail")
+    .accessibilityHint("Displays detailed information about the user")
   }
 
   func FollowersAndFollowingView() -> some View {

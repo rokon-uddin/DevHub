@@ -27,6 +27,8 @@ public struct Toast: View {
       HStack {
         Image(systemName: model.image)
         Text(model.title)
+          .accessibilityLabel("Toast message")
+          .accessibilityValue(model.title)
       }.font(.headline)
         .foregroundColor(Color.accent)
         .padding([.top, .bottom], 20)

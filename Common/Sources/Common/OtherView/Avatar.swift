@@ -21,6 +21,7 @@ public struct Avatar: View {
       .frame(width: size, height: size)
       .cornerRadius(size / 2)
       .addBorder(Color.accent, cornerRadius: size / 2)
+      .accessibilityLabel("Avatar image")
   }
 
   @ViewBuilder

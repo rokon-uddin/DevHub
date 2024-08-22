@@ -15,6 +15,8 @@ public struct DetailTextView: View {
 
   public var body: some View {
     Text(text)
+      .accessibilityLabel("Detail text")
+      .accessibilityValue(text)
       .font(.system(size: 14))
       .foregroundStyle(Color.text)
   }

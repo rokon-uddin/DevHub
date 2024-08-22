@@ -27,6 +27,8 @@ public struct CustomButton: View {
               .font(.system(size: 14))
               .fontWeight(.semibold)
               .foregroundStyle(.white)
+              .accessibilityLabel(title)
+              .accessibilityHint("Tap to perform the action")
           }
         }
       }

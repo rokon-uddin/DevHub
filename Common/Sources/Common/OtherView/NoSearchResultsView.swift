@@ -22,10 +22,12 @@ public struct NoSearchResultsView: View {
         .aspectRatio(contentMode: .fit)
         .frame(width: 64, height: 64)
         .foregroundColor(.gray)
+        .accessibilityHidden(true)
 
       Text("No Results Found")
         .font(.title3)
         .foregroundColor(.primary)
+        .accessibilityLabel("No search results found")
 
       Text("We couldn't find any results for \"\(term)\". Please try a different search term.")
         .font(.body)
@@ -35,5 +37,8 @@ public struct NoSearchResultsView: View {
       Spacer()
     }
     .padding()
+    .accessibilityElement(children: .combine)
+    .accessibilityLabel("No results view")
+    .accessibilityHint("Try refining your search query")
   }
 }
