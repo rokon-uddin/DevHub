@@ -11,9 +11,9 @@ import Foundation
 import NetworkPlatform
 
 struct RepositoryClient {
-  var githubRepositories: any RepositoryUseCaseType
+  var githubRepositories: RepositoryUseCase
 
-  init(useCase: some RepositoryUseCaseType) {
+  init(useCase: RepositoryUseCase) {
     self.githubRepositories = useCase
   }
 }
@@ -27,9 +27,9 @@ extension DependencyValues {
 
 extension RepositoryClient: DependencyKey {
   public static var liveValue = RepositoryClient(
-    useCase: RepositoryUseCase(repository: RemoteGitRepoRepository.live))
+    useCase: RepositoryUseCase(repository: NetworkPlatform.GitRepoRepository.live))
   public static var testValue = RepositoryClient(
-    useCase: RepositoryUseCase(repository: RemoteGitRepoRepository.stubbed))
+    useCase: RepositoryUseCase(repository: NetworkPlatform.GitRepoRepository.stubbed))
   public static var previewValue = RepositoryClient(
-    useCase: RepositoryUseCase(repository: RemoteGitRepoRepository.stubbed))
+    useCase: RepositoryUseCase(repository: NetworkPlatform.GitRepoRepository.stubbed))
 }

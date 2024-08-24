@@ -11,9 +11,9 @@ import Foundation
 import NetworkPlatform
 
 struct UsersClient {
-  var githubUsers: any UsersUseCaseType
+  var githubUsers: UsersUseCase
 
-  init(usersUseCase: some UsersUseCaseType) {
+  init(usersUseCase: UsersUseCase) {
     self.githubUsers = usersUseCase
   }
 }
@@ -27,9 +27,9 @@ extension DependencyValues {
 
 extension UsersClient: DependencyKey {
   public static var liveValue = UsersClient(
-    usersUseCase: UsersUseCase(repository: RemoteUsersRepository.live))
+    usersUseCase: UsersUseCase(repository: NetworkPlatform.UsersRepository.live))
   public static var testValue = UsersClient(
-    usersUseCase: UsersUseCase(repository: RemoteUsersRepository.stubbed))
+    usersUseCase: UsersUseCase(repository: NetworkPlatform.UsersRepository.stubbed))
   public static var previewValue = UsersClient(
-    usersUseCase: UsersUseCase(repository: RemoteUsersRepository.stubbed))
+    usersUseCase: UsersUseCase(repository: NetworkPlatform.UsersRepository.stubbed))
 }

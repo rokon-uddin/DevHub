@@ -48,13 +48,11 @@ final class UserDetailSnapshotTests: XCTestCase {
 
   @MainActor
   func testResponseFailure() async {
-    let client = UserDetailClient(
-      useCase: UserDetailFailingUseCase())
-    let response = client.userDetail
+    let userDetail = UserDetailUseCase(repository: UserDetailFailingRepository())
     let store = Store(initialState: UserDetailFeature.State(user: .mock)) {
       UserDetailFeature()
     } withDependencies: {
-      $0.userDetailClient.userDetail = response
+      $0.userDetailClient.userDetail = userDetail
     }
 
     let view = UserDetailView(store: store)
@@ -74,6 +72,5 @@ final class UserDetailSnapshotTests: XCTestCase {
       assertSnapshot(of: vc, as: .image(on: .iPadPro12_9))
       assertSnapshot(of: vc, as: .image(on: .iPadPro12_9(.landscape(splitView: .oneThird))))
     }
-
   }
 }

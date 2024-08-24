@@ -1,5 +1,5 @@
 //
-//  UserDetailFailingUseCase.swift
+//  UserDetailFailingRepository.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/19/24.
@@ -9,13 +9,16 @@
 @testable import NetworkPlatform
 @testable import UserDetail
 
-struct UserDetailFailingUseCase: UseCase {
+struct UserDetailFailingRepository: Domain.UserDetailRepository {
+  static var live = Self()
+  static var stubbed = Self()
   let error: NetworkRequestError
+
   init(error: NetworkRequestError = .serverError) {
     self.error = error
   }
 
-  func callAsFunction(input: String) async throws -> UserDetail {
+  func read(input: String) async throws -> UserDetail {
     throw error
   }
 }

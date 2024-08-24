@@ -35,11 +35,6 @@ public struct HomeView: View {
           }
         }
       }
-      .toast(
-        toast: .networkError(show: $store.showToast),
-        show: $store.showToast
-      )
-      .onAppear { send(.onAppear) }
     }
     .accessibilityIdentifierBranch("Home")
   }

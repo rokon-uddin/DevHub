@@ -8,7 +8,6 @@
 import Common
 import ComposableArchitecture
 import Domain
-import Reachability
 import SwiftUI
 import UserDetail
 
@@ -37,12 +36,9 @@ public struct HomeFeature {
 
   @CasePathable
   public enum View: BindableAction, Sendable {
-    case onAppear
     case binding(BindingAction<State>)
   }
 
-  @Dependency(\.mainQueue) var mainQueue
-  @Dependency(\.reachabilityClient) var reachabilityClient
   public init() {}
 
   public var body: some ReducerOf<Self> {
@@ -52,13 +48,6 @@ public struct HomeFeature {
     }
     Reduce { state, action in
       switch action {
-      case .view(.onAppear):
-        return .run { send in
-          for try await networkPath in await reachabilityClient.networkPathPublisher() {
-            let isOnline = networkPath.reachability.isOnline
-            await send(.updateReachability(isOnline: isOnline), animation: .linear(duration: 0.8))
-          }
-        }
       case let .updateReachability(isOnline):
         state.showToast = isOnline == false
         return .none

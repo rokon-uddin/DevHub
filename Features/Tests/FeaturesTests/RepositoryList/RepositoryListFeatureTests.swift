@@ -66,14 +66,12 @@ final class RepositoryListTests: XCTestCase {
 
   @MainActor
   func testResponseFailure() async {
-    let client = RepositoryClient(
-      useCase: RepositoryFailingUseCase())
-    let response = client.githubRepositories
+    let repositories = RepositoryUseCase(repository: GitRepoRepositoryFailingRepository())
     let errorDescription = NetworkRequestError.serverError.localizedDescription
     let store = TestStore(initialState: RepositoryListFeature.State(.mock)) {
       RepositoryListFeature()
     } withDependencies: {
-      $0.repositoriesClient.githubRepositories = response
+      $0.repositoriesClient.githubRepositories = repositories
     }
 
     await store.send(\.view.onAppear)

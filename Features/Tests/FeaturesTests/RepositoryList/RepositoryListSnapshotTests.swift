@@ -48,13 +48,11 @@ final class RepositoryListSnapshotTests: XCTestCase {
 
   @MainActor
   func testResponseFailure() async {
-    let client = RepositoryClient(
-      useCase: RepositoryFailingUseCase())
-    let response = client.githubRepositories
+    let repositories = RepositoryUseCase(repository: GitRepoRepositoryFailingRepository())
     let store = Store(initialState: RepositoryListFeature.State(.mock)) {
       RepositoryListFeature()
     } withDependencies: {
-      $0.repositoriesClient.githubRepositories = response
+      $0.repositoriesClient.githubRepositories = repositories
     }
 
     store.send(.view(.onAppear))

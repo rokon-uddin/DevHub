@@ -1,5 +1,5 @@
 //
-//  RemoteUserDetailRepository.swift
+//  UserDetailRepository.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/18/24.
@@ -7,7 +7,7 @@
 
 import Domain
 
-public struct RemoteUserDetailRepository: Domain.RemoteUsersRepository {
+public struct UserDetailRepository: Domain.UserDetailRepository {
 
   private let network: AppNetworking
 
@@ -21,8 +21,8 @@ public struct RemoteUserDetailRepository: Domain.RemoteUsersRepository {
       type: UserDetail.self)
   }
 
-  public static var live = RemoteUserDetailRepository(
+  public static var live = UserDetailRepository(
     network: AppNetworking.defaultNetworking())
-  public static var stubbed = RemoteUserDetailRepository(
+  public static var stubbed = UserDetailRepository(
     network: AppNetworking.stubbingNetworking())
 }

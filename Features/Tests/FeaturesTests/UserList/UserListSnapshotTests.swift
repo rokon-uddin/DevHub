@@ -18,13 +18,11 @@ final class UserListSnapshotTests: XCTestCase {
 
   @MainActor
   func testResponseFailure() async {
-    let client = UsersClient(
-      usersUseCase: UserListFailingUseCase())
-    let response = client.githubUsers
+    let users = UsersUseCase(repository: UserListFailingRepository())
     let store = Store(initialState: UserListFeature.State()) {
       UserListFeature()
     } withDependencies: {
-      $0.usersClient.githubUsers = response
+      $0.usersClient.githubUsers = users
     }
 
     store.send(.view(.onAppear))

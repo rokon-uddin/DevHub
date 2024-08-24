@@ -1,5 +1,5 @@
 //
-//  RemoteUsersRepository.swift
+//  UsersRepository.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/18/24.
@@ -7,7 +7,7 @@
 
 import Domain
 
-public struct RemoteUsersRepository: Domain.RemoteUsersRepository {
+public struct UsersRepository: Domain.UsersRepository {
 
   private let network: AppNetworking
 
@@ -18,11 +18,12 @@ public struct RemoteUsersRepository: Domain.RemoteUsersRepository {
   public func read(input: Int) async throws -> UsersResponse {
     try await network.requestResponseAndHeader(
       .users(input),
-      type: Users.self).asUserListResponse
+      type: Users.self
+    ).asUserListResponse
   }
 
-  public static var live = RemoteUsersRepository(
+  public static var live = UsersRepository(
     network: AppNetworking.defaultNetworking())
-  public static var stubbed = RemoteUsersRepository(
+  public static var stubbed = UsersRepository(
     network: AppNetworking.stubbingNetworking())
 }

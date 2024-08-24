@@ -26,7 +26,6 @@ final class HomeFeatureSnapshotTests: XCTestCase {
     let view = NavigationStack {
       HomeView(store: store)
     }
-    store.send(.view(.onAppear))
     let vc = UIHostingController(rootView: view)
 
     let expectation = self.expectation(description: "expectation")

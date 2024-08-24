@@ -1,5 +1,5 @@
 //
-//  RemoteGitRepoRepository.swift
+//  GitRepoRepository.swift
 //  DevHub
 //
 //  Created by Mohammed Rokon Uddin on 8/18/24.
@@ -7,7 +7,7 @@
 
 import Domain
 
-public struct RemoteGitRepoRepository: Domain.RemoteGitRepoRepository {
+public struct GitRepoRepository: Domain.GitRepoRepository {
 
   private let network: AppNetworking
 
@@ -21,8 +21,8 @@ public struct RemoteGitRepoRepository: Domain.RemoteGitRepoRepository {
       type: RepositoryResponse.self)
   }
 
-  public static var live = RemoteGitRepoRepository(
+  public static var live = GitRepoRepository(
     network: AppNetworking.defaultNetworking())
-  public static var stubbed = RemoteGitRepoRepository(
+  public static var stubbed = GitRepoRepository(
     network: AppNetworking.stubbingNetworking())
 }

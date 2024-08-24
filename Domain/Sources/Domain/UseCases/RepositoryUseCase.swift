@@ -7,22 +7,15 @@
 
 import Foundation
 
-public typealias RepositoryUseCaseType = UseCase<
-  RepositoryQuery, RepositoryResponse
->
-
-public final class RepositoryUseCase: UseCase {
+public struct RepositoryUseCase: UseCase {
 
   var getRepositories: (_ input: RepositoryQuery) async throws -> RepositoryResponse
 
-  public init<R: RemoteUsersRepository>(repository: R)
-  where R.ReadInput == Input, R.ReadOutput == Output {
+  public init<R: GitRepoRepository>(repository: R) {
     self.getRepositories = repository.read(input:)
   }
 
-  public func callAsFunction(input: RepositoryQuery) async throws
-    -> RepositoryResponse
-  {
+  public func callAsFunction(input: RepositoryQuery) async throws -> RepositoryResponse {
     return try await getRepositories(input)
   }
 }

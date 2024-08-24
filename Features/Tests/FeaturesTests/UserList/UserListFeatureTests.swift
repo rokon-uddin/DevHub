@@ -84,14 +84,14 @@ final class UserListFeatureTests: XCTestCase {
 
   @MainActor
   func testResponseFailure() async {
-    let client = UsersClient(usersUseCase: UserListFailingUseCase())
-    let response = client.githubUsers
+
+    let users = UsersUseCase(repository: UserListFailingRepository())
     let errorDescription = NetworkRequestError.serverError.localizedDescription
 
     let store = TestStore(initialState: UserListFeature.State()) {
       UserListFeature()
     } withDependencies: {
-      $0.usersClient.githubUsers = response
+      $0.usersClient.githubUsers = users
     }
 
     await store.send(\.view.onAppear)

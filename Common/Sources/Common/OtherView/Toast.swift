@@ -42,7 +42,9 @@ public struct Toast: View {
       withAnimation { self.show = false }
     }.onAppear(perform: {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        withAnimation { self.show = false }
+        withAnimation(.linear) {
+          self.show = false
+        }
       }
     })
   }

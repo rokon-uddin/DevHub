@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F53BC4B2C787D40002EC6A8 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 2F53BC4A2C787D40002EC6A8 /* Reachability */; };
+		2F53BC4C2C787D40002EC6A8 /* Reachability in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2F53BC4A2C787D40002EC6A8 /* Reachability */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2F53BC4F2C787D47002EC6A8 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 2F53BC4E2C787D47002EC6A8 /* Common */; };
 		2F8C2C1C2C720959009DBE2D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F8C2C1B2C720959009DBE2D /* Preview Assets.xcassets */; };
 		2FDA42662C720E7E00AF7C36 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 2FDA42652C720E7E00AF7C36 /* ComposableArchitecture */; };
 		2FDA42762C720F0B00AF7C36 /* Development.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2FDA42682C720F0B00AF7C36 /* Development.xcconfig */; };
@@ -17,6 +20,20 @@
 		2FDA427F2C720F5B00AF7C36 /* DevHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FDA427D2C720F5B00AF7C36 /* DevHubApp.swift */; };
 		2FDA42822C720F7600AF7C36 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 2FDA42812C720F7600AF7C36 /* Home */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2F53BC4D2C787D40002EC6A8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2F53BC4C2C787D40002EC6A8 /* Reachability in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2F341E5B2C720DDB00181F09 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
@@ -44,7 +61,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2FDA42662C720E7E00AF7C36 /* ComposableArchitecture in Frameworks */,
+				2F53BC4B2C787D40002EC6A8 /* Reachability in Frameworks */,
 				2FDA42822C720F7600AF7C36 /* Home in Frameworks */,
+				2F53BC4F2C787D47002EC6A8 /* Common in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +192,7 @@
 				2F8C2C0D2C720957009DBE2D /* Sources */,
 				2F8C2C0E2C720957009DBE2D /* Frameworks */,
 				2F8C2C0F2C720957009DBE2D /* Resources */,
+				2F53BC4D2C787D40002EC6A8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -182,6 +202,8 @@
 			packageProductDependencies = (
 				2FDA42652C720E7E00AF7C36 /* ComposableArchitecture */,
 				2FDA42812C720F7600AF7C36 /* Home */,
+				2F53BC4A2C787D40002EC6A8 /* Reachability */,
+				2F53BC4E2C787D47002EC6A8 /* Common */,
 			);
 			productName = DevHub;
 			productReference = 2F8C2C112C720957009DBE2D /* DevHub.app */;
@@ -858,6 +880,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2F53BC4A2C787D40002EC6A8 /* Reachability */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Reachability;
+		};
+		2F53BC4E2C787D47002EC6A8 /* Common */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Common;
+		};
 		2FDA42652C720E7E00AF7C36 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2FDA42642C720E7E00AF7C36 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

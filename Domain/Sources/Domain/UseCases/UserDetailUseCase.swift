@@ -7,14 +7,11 @@
 
 import Foundation
 
-public typealias UserDetailUseCaseType = UseCase<String, UserDetail>
-
-public final class UserDetailUseCase: UseCase {
+public struct UserDetailUseCase: UseCase {
 
   var getUser: (_ input: String) async throws -> UserDetail
 
-  public init<R: RemoteUserDetailRepository>(repository: R)
-  where R.ReadInput == Input, R.ReadOutput == Output {
+  public init<R: UserDetailRepository>(repository: R) {
     self.getUser = repository.read(input:)
   }
 

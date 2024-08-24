@@ -14,53 +14,56 @@ public protocol PrepareRepository {
 public protocol CreateRepository {
   associatedtype CreateInput = Never
   associatedtype CreateOutput = Never
-  associatedtype RepositoryType
 
   func create(input: CreateInput) async throws -> CreateOutput
-  static var live: RepositoryType { get }
-  static var stubbed: RepositoryType { get }
+  static var live: Self { get }
+  static var stubbed: Self { get }
 }
 
 public protocol ReadRepository {
   associatedtype ReadInput = Never
   associatedtype ReadOutput = Never
-  associatedtype RepositoryType
 
   func read(input: ReadInput) async throws -> ReadOutput
-  static var live: RepositoryType { get }
-  static var stubbed: RepositoryType { get }
+  static var live: Self { get }
+  static var stubbed: Self { get }
 }
 
 public protocol ReadAllRepository {
   associatedtype ReadInput = Never
   associatedtype ReadOutput = Never
-  associatedtype RepositoryType
 
   func readAll(input: ReadInput) async throws -> [ReadOutput]
-  static var live: RepositoryType { get }
-  static var stubbed: RepositoryType { get }
+  static var live: Self { get }
+  static var stubbed: Self { get }
 }
 
 public protocol UpdateRepository {
   associatedtype UpdateInput = Never
   associatedtype UpdateOutput = Never
-  associatedtype RepositoryType
 
   func update(input: UpdateInput) async throws -> UpdateOutput
-  static var live: RepositoryType { get }
-  static var stubbed: RepositoryType { get }
+  static var live: Self { get }
+  static var stubbed: Self { get }
 }
 
 public protocol DeleteRepository {
   associatedtype DeleteInput = Never
   associatedtype DeleteOutput = Never
-  associatedtype RepositoryType
 
   func delete(input: DeleteInput) async throws -> DeleteOutput
-  static var live: RepositoryType { get }
-  static var stubbed: RepositoryType { get }
+  static var live: Self { get }
+  static var stubbed: Self { get }
 }
 
-public typealias RemoteUsersRepository = ReadRepository
-public typealias RemoteUserDetailRepository = ReadRepository
-public typealias RemoteGitRepoRepository = ReadRepository
+public protocol UsersRepository: ReadRepository {
+  func read(input: Int) async throws -> UsersResponse
+}
+
+public protocol UserDetailRepository: ReadRepository {
+  func read(input: String) async throws -> UserDetail
+}
+
+public protocol GitRepoRepository: ReadRepository {
+  func read(input: RepositoryQuery) async throws -> RepositoryResponse
+}
