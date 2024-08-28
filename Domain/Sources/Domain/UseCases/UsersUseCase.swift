@@ -11,8 +11,7 @@ public struct UsersUseCase: UseCase {
 
   var getUsers: (_ input: Int) async throws -> UsersResponse
 
-  public init<R: UsersRepository>(repository: R)
-  where R.ReadInput == Input, R.ReadOutput == Output {
+  public init(repository: some UsersRepository) {
     self.getUsers = repository.read(input:)
   }
 

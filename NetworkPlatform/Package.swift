@@ -15,6 +15,7 @@ let package = Package(
   dependencies: [
     .package(path: "../Domain"),
     .package(path: "../Utilities"),
+    .package(path: "../Reachability"),
     .package(
       url: "https://github.com/Moya/Moya.git",
       from: "15.0.3"

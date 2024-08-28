@@ -7,7 +7,7 @@ final class ReachabilityTests: XCTestCase {
   func testReachabilitySatisfiedWifi() async {
     let client = ReachabilityClient.satisfiedWifi
 
-    let stream = await client.networkPathPublisher()
+    let stream = await client.networkPathStream()
     var paths = [NetworkPath]()
 
     for await path in stream {
@@ -21,7 +21,7 @@ final class ReachabilityTests: XCTestCase {
   func testReachabilitySatisfiedCellular() async {
     let client = ReachabilityClient.satisfiedCellular
 
-    let stream = await client.networkPathPublisher()
+    let stream = await client.networkPathStream()
     var paths = [NetworkPath]()
 
     for await path in stream {
@@ -35,7 +35,7 @@ final class ReachabilityTests: XCTestCase {
   func testReachabilityUnsatisfied() async {
     let client = ReachabilityClient.unsatisfied
 
-    let stream = await client.networkPathPublisher()
+    let stream = await client.networkPathStream()
     var paths = [NetworkPath]()
 
     for await path in stream {

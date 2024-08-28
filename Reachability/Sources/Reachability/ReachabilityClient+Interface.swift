@@ -5,12 +5,14 @@
 //  Created by Mohammed Rokon Uddin on 8/20/24.
 //
 
+import Combine
 import Network
 
 public struct ReachabilityClient {
-  public var networkPathPublisher: @Sendable () async -> AsyncStream<NetworkPath>
+  public var networkPathStream: @Sendable () async -> AsyncStream<NetworkPath>
 
-  public init(networkPathPublisher: @escaping @Sendable () async -> AsyncStream<NetworkPath>) {
-    self.networkPathPublisher = networkPathPublisher
+  public init(networkPathStream: @escaping @Sendable () async -> AsyncStream<NetworkPath>) {
+    self.networkPathStream = networkPathStream
   }
+
 }

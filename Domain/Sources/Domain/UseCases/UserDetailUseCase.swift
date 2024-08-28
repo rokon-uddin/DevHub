@@ -11,7 +11,7 @@ public struct UserDetailUseCase: UseCase {
 
   var getUser: (_ input: String) async throws -> UserDetail
 
-  public init<R: UserDetailRepository>(repository: R) {
+  public init(repository: some UserDetailRepository) {
     self.getUser = repository.read(input:)
   }
 

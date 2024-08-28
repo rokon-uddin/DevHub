@@ -9,6 +9,7 @@ import Combine
 import Domain
 import Foundation
 import Moya
+import Reachability
 
 struct AppNetworking: NetworkingType {
   typealias T = AppAPI
@@ -21,8 +22,7 @@ struct AppNetworking: NetworkingType {
           endpointClosure: AppNetworking.endpointsClosure(),
           requestClosure: AppNetworking.endpointResolver(),
           stubClosure: AppNetworking.APIKeysBasedStubBehaviour,
-          online: Just(true).setFailureType(to: Never.self)
-            .eraseToAnyPublisher()))
+          online: ReachabilityClient.liveValue.networkPathPublisher()))
   }
 
   static func stubbingNetworking() -> Self {
@@ -32,8 +32,7 @@ struct AppNetworking: NetworkingType {
           endpointClosure: endpointsClosure(),
           requestClosure: AppNetworking.endpointResolver(),
           stubClosure: MoyaProvider.immediatelyStub,
-          online: Just(true).setFailureType(to: Never.self)
-            .eraseToAnyPublisher()))
+          online: ReachabilityClient.testValue.networkPathPublisher()))
   }
 
   func request(_ target: T) -> AnyPublisher<Moya.Response, MoyaError> {

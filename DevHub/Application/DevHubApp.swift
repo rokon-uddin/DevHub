@@ -39,7 +39,7 @@ struct DevHubApp: App {
             .allowsHitTesting(false)
             .toast(toast: .networkError(show: $showToast), show: $showToast)
             .task {
-              for await networkPath in await reachabilityClient.networkPathPublisher() {
+              for await networkPath in await reachabilityClient.networkPathStream() {
                 let isOnline = networkPath.reachability.isOnline
                 if !isOnline {
                   withAnimation {

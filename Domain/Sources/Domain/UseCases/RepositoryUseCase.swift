@@ -11,7 +11,7 @@ public struct RepositoryUseCase: UseCase {
 
   var getRepositories: (_ input: RepositoryQuery) async throws -> RepositoryResponse
 
-  public init<R: GitRepoRepository>(repository: R) {
+  public init(repository: some GitRepoRepository) {
     self.getRepositories = repository.read(input:)
   }
 
