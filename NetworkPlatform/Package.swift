@@ -33,6 +33,7 @@ let package = Package(
         "BuildConfiguration",
         .product(name: "Domain", package: "Domain"),
         .product(name: "Utilities", package: "Utilities"),
+        .product(name: "Reachability", package: "Reachability"),
         .product(name: "Moya", package: "Moya"),
         .product(name: "CombineMoya", package: "Moya"),
       ],

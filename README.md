@@ -1,7 +1,9 @@
-#DevHub
+# DevHub
+
 [![IDE](https://img.shields.io/badge/Xcode-15.4-blue.svg)](https://developer.apple.com/xcode/)
 [![Language](https://img.shields.io/badge/swift-5.9-orange.svg)](https://swift.org)
 [![Platform](https://img.shields.io/badge/iOS-16-green.svg)](https://developer.apple.com/ios/)
+
 <p align="center">
   <img src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/logo.jpeg" alt="DevHub Logo" height="80" >
 </p>
@@ -15,6 +17,7 @@
 - [Architecture Overview](#architecture-overview)
 - [App Features](#app-features)
 - [Technologies](#technologies)
+- [Building and Running](#building-and-running)
 - [Build Configurations](#build-configurations)
 
 ## Screenshots
@@ -75,6 +78,12 @@ The app is structured using a Clean Architecture to promote modularity, maintain
 - [x] Add UITests
 - [x] Add SnapshotTests
 - [x] Add Accessibility Identifier ([accessibilityidentifier(_:)](https://developer.apple.com/documentation/swiftui/view/accessibilityidentifier(_:)))
+
+## Building and Running
+Navigate to the `BuildConfiguration.plist` file in the project navigator and enter the GitHub token for the `githubToken` key. Each build scheme has its own `BuildConfiguration.plist` file, so ensure that the token is added to the corresponding file for each scheme.
+<p align="center">
+    <img alt="Clean Architecture" src="https://github.com/rokon-uddin/DevHub/blob/main/screenshots/build.jpeg?raw=true" height="640">
+</p>
 
 ## Build Configurations
 DevHub uses `.xcconfig` and `BuildConfiguration.plist` for managing environment-specific settings.
